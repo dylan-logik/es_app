@@ -1,3 +1,3 @@
-var Document = Backbone.Model.extend({
+ESApp.Models.Document = Backbone.Model.extend({
   urlRoot: '/documents'
 });

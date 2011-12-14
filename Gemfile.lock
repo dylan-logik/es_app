@@ -165,6 +165,7 @@ PLATFORMS
 DEPENDENCIES
   bson_ext
   coffee-rails (~> 3.1.1)
+  ejs
   fabrication
   faker
   jquery-rails
