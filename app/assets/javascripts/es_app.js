@@ -4,8 +4,13 @@ var ESApp = {
   Views: {},
   Routers: {},
   init: function(documents) {
-    new ESApp.Routers.Documents();
+    console.debug(documents);
     this.documents = new ESApp.Collections.Documents(documents);
-    Backbone.history.start();
+
+    new ESApp.Routers.Documents();
+    if (!Backbone.history.started) {
+      Backbone.history.start();
+      Backbone.history.started = true;
+    }
   }
 };
