@@ -2,23 +2,17 @@ class DocumentsController < ApplicationController
   respond_to :html, :json
 
   def index
-    user_query = params[:q] ? params[:q] : "*:*"
-    @response = Document.search do |search|
-      search.query do |query|
-        query.string user_query
-      end
-    end
+    @response = Document.all
+    respond_with(@response)
+  end
 
+  def search
+    @response = Document.search(params)
     respond_with(@response)
   end
 
   def show
-    @response = Document.search do |search|
-      search.query do |query|
-        query.term :_id, params[:id]
-      end
-    end
-
+    @response = Document.find(params[:id])
     respond_with(@response)
   end
 end

@@ -50,8 +50,7 @@ GEM
     execjs (1.2.12)
       multi_json (~> 1.0)
     fabrication (1.2.0)
-    faker (1.0.1)
-      i18n (~> 0.4)
+    ffaker (1.12.1)
     hike (1.2.1)
     i18n (0.6.0)
     jquery-rails (1.0.19)
@@ -68,7 +67,7 @@ GEM
     mime-types (1.17.2)
     mongo (1.5.2)
       bson (= 1.5.2)
-    mongoid (2.3.4)
+    mongoid (2.4.3)
       activemodel (~> 3.1)
       mongo (~> 1.3)
       tzinfo (~> 0.3.22)
@@ -91,10 +90,6 @@ GEM
       activesupport (= 3.1.3)
       bundler (~> 1.0)
       railties (= 3.1.3)
-    rails-backbone (0.5.5)
-      coffee-script (~> 2.2.0)
-      ejs (~> 1.0.0)
-      rails (~> 3.1.0)
     railties (3.1.3)
       actionpack (= 3.1.3)
       activesupport (= 3.1.3)
@@ -163,18 +158,18 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bson_ext
+  bson_ext (~> 1.3)
   coffee-rails (~> 3.1.1)
-  fabrication
-  faker
+  ejs (~> 1.0)
+  fabrication (~> 1.1)
+  ffaker (~> 1.12)
   jquery-rails
-  mongoid
+  mongoid (~> 2.4)
   rails (= 3.1.3)
-  rails-backbone
   rspec-rails
   ruby-debug19
   sass-rails (~> 3.1.5)
   therubyracer
-  tire
+  tire (~> 0.3)
   turn (= 0.8.2)
   uglifier (>= 1.0.3)

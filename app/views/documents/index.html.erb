@@ -1,3 +1,18 @@
+<p><%= @response.inspect %></p>
+<p><%= @response.results.inspect %></p>
+<h3>About <%= @response.total %> results (<%= @response.time %> ms)</h3>
+<%= render partial: 'search_form' %>
+<table><tr>
+<% @response.facets.each_pair do |name, facet| %>
+  <td>
+    <%= render partial: "documents/facets/#{facet['_type']}", locals: { facet: parse_facet(name, facet) } %>
+  </td>
+<% end %>
+</tr></table>
+<ul>
+  <%= render partial: 'results', collection: @response.results, as: :document %>
+</ul>
+
 <%= content_for :javascript do %>
   <%= javascript_tag do %>
     ESApp.init(<%== @response.results.to_json %>);

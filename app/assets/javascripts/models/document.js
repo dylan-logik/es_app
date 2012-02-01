@@ -1,3 +1,1 @@
-var Document = Backbone.Model.extend({
-  urlRoot: '/documents'
-});
+var Document = Backbone.Model.extend({})
