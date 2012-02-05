@@ -1,1 +1,1 @@
-var Document = Backbone.Model.extend({})
+var Document = Backbone.Model.extend({});
