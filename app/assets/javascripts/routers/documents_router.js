@@ -9,7 +9,6 @@ ESApp.Routers.Documents = Backbone.Router.extend({
   },
 
   index: function() {
-    console.debug('index');
     var view = new ESApp.Views.DocumentsIndex({ collection: ESApp.documents });
     $('body').html(view.render().el);
   }

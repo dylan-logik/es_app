@@ -6,12 +6,17 @@ ESApp.Views.DocumentItem = Backbone.View.extend({
   },
 
   render: function() {
-    $(this.el).html(JST['documents/item']({ document: this.model }));
+    this.renderTemplate();
     this.renderContents();
     return this;
   },
+  
+  renderTemplate: function() {
+    $(this.el).html(JST['documents/item']());
+  },
 
   renderContents: function() {
-    this.$('label').text(this.model.escape('name'));
+    this.$('#name').text(this.model.escape('name'));
+    this.$('#page_count').text(this.model.escape('page_count'));
   }
 });

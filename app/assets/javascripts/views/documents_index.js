@@ -11,14 +11,14 @@ ESApp.Views.DocumentsIndex = Backbone.View.extend({
   },
 
   renderTemplate: function() {
-    $(this.el).html(JST['documents/index']({ documents: this.collection }));
+    $(this.el).html(JST['documents/index']());
   },
 
   renderDocuments: function() {
     var self = this;
-    this.collection.each(function(document) {
-      var row = new ESApp.Views.DocumentItem({ model: document });
-      //self.renderChild(row);
+    this.collection.each(function(doc) {
+      var row = new ESApp.Views.DocumentItem({ model: doc });
+      row.render();
       self.$('tbody').append(row.el);
     });
   }
