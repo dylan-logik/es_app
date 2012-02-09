@@ -3,10 +3,10 @@ var ESApp = {
   Collections: {},
   Views: {},
   Routers: {},
-  init: function(documents) {
-    this.documents = new ESApp.Collections.Documents(documents)
+  init: function(tweets) {
+    this.tweets = new ESApp.Collections.Tweets(tweets)
 
-    new ESApp.Routers.Documents({ collection: this.documents });
+    new ESApp.Routers.Tweets({ collection: this.tweets});
     if (!Backbone.history.start()) {
       Backbone.history.start();
       Backbone.history.started = true;

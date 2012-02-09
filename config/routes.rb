@@ -1,5 +1,6 @@
 EsApp::Application.routes.draw do
   resources :documents, :only => [:index, :show]
+  resources :tweets, :only => [:index, :search, :show]
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
