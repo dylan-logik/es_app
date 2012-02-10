@@ -7,7 +7,6 @@ gem 'mongoid', '~> 2.4'
 gem 'bson_ext', '~> 1.3'
 gem 'therubyracer'
 gem 'ejs'
-gem 'will_paginate', '~> 3'
 
 group :assets do
   gem 'sass-rails',   '~> 3.1.5'

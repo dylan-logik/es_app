@@ -2,7 +2,6 @@ class Tweet
   include Tire::Model::Search
   include Tire::Model::Callbacks
   include Tire::Model::Persistence
-  include TweetFacets
    
   class << self
     
@@ -14,9 +13,8 @@ class Tweet
         search.query do |query|
           query.string q
         end
-
-        search.instance_eval(&hash_tag_facet)
-        search.instance_eval(&user_facet)
+        
+        TweetFacets.facets { |f| search.instance_eval(&f) }
 
         search.highlight :text
       end
@@ -26,8 +24,7 @@ class Tweet
       tire.search do |search|
         search.from( params[:page].to_i <= 1 ? 0 : (10 * (params[:page].to_i-1)) ) if params[:page]
         search.query { all }
-        search.instance_eval(&hash_tag_facet)
-        search.instance_eval(&user_facet)
+        TweetFacets.facets { |f| search.instance_eval(&f) }
       end
     end
 

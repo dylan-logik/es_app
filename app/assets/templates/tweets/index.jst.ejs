@@ -1,26 +1,28 @@
-<h1>Tweets</h1>
-<table id="tweets-list">
-  <thead>
-    <tr>
-      <th>User</th>
-      <th>Content</th>
-    </tr>
-  </thead>
-  <tbody>
-  </tbody>
-</table>
-<% if(page_info.pages > 1) { %>
-  <% if(page_info.prev) { %>
-    <a href="#" class="prev">previous</a>
-  <% } else { %>
-    <span>previous</span>
+<div class='tweets'>
+  <h1>Tweets</h1>
+  <table id="tweets-list">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Content</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+<div class='pagination'>
+  <% if(page_info.pages > 1) { %>
+    <% if(page_info.prev) { %>
+      <a href="#" class="prev">previous</a>
+    <% } else { %>
+      <span>previous</span>
+    <% } %>
+    <%= page_info.range[0] %>..<%= page_info.range[1] %> of <%= page_info.total %>
+    <% if(page_info.next) { %>
+      <a href="#" class="next">next</a>
+    <% } else { %>
+      <span>next</span>
+    <% } %>
   <% } %>
-
-  <%= page_info.range[0] %>..<%= page_info.range[1] %> of <%= page_info.total %>
-
-  <% if(page_info.next) { %>
-    <a href="#" class="next">next</a>
-  <% } else { %>
-    <span>next</span>
-  <% } %>
-<% } %>
+</div>

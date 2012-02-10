@@ -1,5 +1,7 @@
 ESApp.Collections.Tweets = Backbone.Collection.extend({
+
   model: ESApp.Models.Tweet,
+
   initialize: function() {
     _.bindAll(this, 'parse', 'url', 'pageInfo', 'nextPage', 'previousPage');
     this.page = 1;
@@ -11,20 +13,19 @@ ESApp.Collections.Tweets = Backbone.Collection.extend({
 
   fetch: function(options) {
     options || (options = {});
-    this.trigger("fetching");
+    this.trigger('fetching');
     var self = this;
     var success = options.success;
     options.success = function(resp) {
-      self.trigger("fetched");
+      self.trigger('refresh');
       if(success) { success(self, resp); }
     };
     Backbone.Collection.prototype.fetch.call(this, options);
   },
 
   parse: function(resp) {
-    console.debug(resp);
     this.page = resp.page,
-    this.perPage = resp.per_page;
+    this.perPage = resp.perPage;
     this.total = resp.total;
     return resp.tweets;
   },
@@ -54,7 +55,6 @@ ESApp.Collections.Tweets = Backbone.Collection.extend({
     if (this.page < info.pages) {
       info.next = this.page + 1;
     }
-
     return info;
   },
 
@@ -67,5 +67,4 @@ ESApp.Collections.Tweets = Backbone.Collection.extend({
     this.page = this.page - 1;
     this.fetch();
   }
-
 });

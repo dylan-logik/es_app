@@ -9,7 +9,10 @@ ESApp.Routers.Tweets = Backbone.Router.extend({
   },
 
   index: function() {
+    ESApp.tweets.fetch();
     var view = new ESApp.Views.TweetsIndex({ collection: ESApp.tweets });
-    $('body').html(view.render().el);
+    var facet_view = new ESApp.Views.TweetsFacetsIndex({ collection: ESApp.facets });
+    $('body').html(facet_view.render().el);
+    $('body').append(view.render().el);
   }
 });

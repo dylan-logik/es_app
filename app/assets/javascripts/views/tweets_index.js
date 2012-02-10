@@ -1,7 +1,8 @@
 ESApp.Views.TweetsIndex = Backbone.View.extend({
-  initialize: function() {
+  initialize: function(options) {
     _.bindAll(this, "render");
     this.collection.bind('refresh', this.render);
+    this.collection.bind('fetching', this.fetching);
   },
 
   events: {
@@ -19,6 +20,10 @@ ESApp.Views.TweetsIndex = Backbone.View.extend({
     return false;
   },
 
+  fetching: function() {
+    $(this.el).html('Fetching...');
+  },
+
   render: function() {
     this.renderTemplate();
     this.renderContents();
@@ -26,7 +31,7 @@ ESApp.Views.TweetsIndex = Backbone.View.extend({
   },
 
   renderTemplate: function() {
-    $(this.el).html(JST['tweets/index']({ page_info: { "total": 10, "pages": 10, "prev": false, "next": true, "range": [1,10]}}));
+    $(this.el).html(JST['tweets/index']({ page_info: this.collection.pageInfo() }));
   },
 
   renderContents: function() {

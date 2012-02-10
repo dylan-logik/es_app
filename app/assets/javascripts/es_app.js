@@ -3,12 +3,11 @@ var ESApp = {
   Collections: {},
   Views: {},
   Routers: {},
-  init: function(tweets) {
-    console.debug('tweets');
-    console.debug(tweets);
-    this.tweets = new ESApp.Collections.Tweets(tweets)
+  init: function(response) {
+    this.tweets = new ESApp.Collections.Tweets(response.tweets);
+    this.facets = new ESApp.Collections.TweetFacets(response.facets);
 
-    new ESApp.Routers.Tweets({ collection: this.tweets});
+    new ESApp.Routers.Tweets({ collection: response});
     if (!Backbone.history.start()) {
       Backbone.history.start();
       Backbone.history.started = true;

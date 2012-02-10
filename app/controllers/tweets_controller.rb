@@ -4,12 +4,13 @@ class TweetsController < ApplicationController
   def index
     response  = Tweet.all(params)
     @tweets   = response.results
-    @facets   = response.facets
-    @page     = params[:page]
+    @facets   = response.facets.map { |k,v| v.update({ name: k }) }
+    @page     = params[:page].to_i
     @perPage  = 10
-    @total    = (response.total / @perPage).ceil
-
-    respond_with({ tweets: @tweets, facets: @facets, page: @page, perPage: @perPage, total: @total })
+    @total    = response.total
+    @pages    = (@total.to_f / @perPage.to_f).ceil
+    @response = { tweets: @tweets, facets: @facets, page: @page, perPage: @perPage, total: @total, pages: @pages }
+    respond_with(@response)
   end
 
   def search(params)
