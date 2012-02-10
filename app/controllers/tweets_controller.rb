@@ -2,8 +2,14 @@ class TweetsController < ApplicationController
   respond_to :html, :json
 
   def index
-    @tweets = Tweet.all(params)
-    respond_with(@tweets)
+    response  = Tweet.all(params)
+    @tweets   = response.results
+    @facets   = response.facets
+    @page     = params[:page]
+    @perPage  = 10
+    @total    = (response.total / @perPage).ceil
+
+    respond_with({ tweets: @tweets, facets: @facets, page: @page, perPage: @perPage, total: @total })
   end
 
   def search(params)

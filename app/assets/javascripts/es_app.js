@@ -4,6 +4,8 @@ var ESApp = {
   Views: {},
   Routers: {},
   init: function(tweets) {
+    console.debug('tweets');
+    console.debug(tweets);
     this.tweets = new ESApp.Collections.Tweets(tweets)
 
     new ESApp.Routers.Tweets({ collection: this.tweets});

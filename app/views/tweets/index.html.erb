@@ -1,5 +1,3 @@
-<%= will_paginate @tweets %>
-
 <%= javascript_tag do %>
   $(function() {
     ESApp.init(<%== @tweets.to_json %>);
