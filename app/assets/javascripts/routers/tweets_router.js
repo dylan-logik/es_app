@@ -5,7 +5,8 @@ ESApp.Routers.Tweets = Backbone.Router.extend({
   },
 
   routes: {
-    "": "index"
+    "": "index",
+    ":id": "show"
   },
 
   index: function() {
@@ -14,5 +15,16 @@ ESApp.Routers.Tweets = Backbone.Router.extend({
     var facet_view = new ESApp.Views.TweetsFacetsIndex({ collection: ESApp.facets });
     $('body').html(facet_view.render().el);
     $('body').append(view.render().el);
+  },
+
+  show: function(tweetId) {
+    var tweet = this.collection.get(taskId);
+    var tweetsRouter = this;
+    task.fetch({
+      success: function() {
+        var view = new ESApp.View.TweetShow({ model: tweet });
+        tweetsRouter.swap(view);
+      }
+    });
   }
 });

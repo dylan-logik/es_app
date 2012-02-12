@@ -19,5 +19,10 @@ ESApp.Views.TweetItem = Backbone.View.extend({
     var user = this.model.attributes.user;
     this.$('#user').text(user.name);
     this.$('#content').text(this.model.escape('text'));
+    this.$('a').attr("href", this.tweetUrl());
+  },
+
+  tweetUrl: function() {
+    return '#' + this.model.get('id');
   }
 });
