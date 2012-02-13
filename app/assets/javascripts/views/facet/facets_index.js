@@ -1,4 +1,4 @@
-ESApp.Views.TweetsFacetsIndex = Backbone.View.extend({
+ESApp.Views.FacetsIndex = Backbone.View.extend({
   
   initialize: function() {
     _.bindAll(this, 'render');

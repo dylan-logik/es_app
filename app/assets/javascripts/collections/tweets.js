@@ -1,4 +1,4 @@
-ESApp.Collections.Tweets = Backbone.Collection.extend({
+ESApp.Collections.Results = Backbone.Collection.extend({
 
   model: ESApp.Models.Tweet,
 
