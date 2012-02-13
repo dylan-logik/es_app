@@ -9,7 +9,7 @@ var ESApp = {
 
     new ESApp.Routers.Tweets({ collection: response});
     if (!Backbone.history.start()) {
-      Backbone.history.start();
+      Backbone.history.start({ pustState: true });
       Backbone.history.started = true;
     }
   }
