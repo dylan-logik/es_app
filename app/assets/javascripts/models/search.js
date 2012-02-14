@@ -1,8 +1,9 @@
 ESApp.Models.Search = Backbone.RelationalModel.extend({
 
-  url: '/search',
+  urlRoot: '/search',
 
   initialize: function(options) {
+    options || (options = {});
     this.page     = 1,
     this.total    = (options.total || 0),
     this.perPage  = (options.perPage || 10)
@@ -40,5 +41,6 @@ ESApp.Models.Search = Backbone.RelationalModel.extend({
   parse: function(resp) {
     this.get('results').reset(resp.results);
     this.get('facets').reset(resp.facets);   
+    return false;
   }
 });

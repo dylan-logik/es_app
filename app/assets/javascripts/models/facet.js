@@ -1,1 +1,3 @@
-ESApp.Models.Facet = Backbone.Model.extend({});
+ESApp.Models.Facet = Backbone.Model.extend({
+
+});
