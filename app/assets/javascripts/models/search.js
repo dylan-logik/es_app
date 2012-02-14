@@ -1,23 +1,44 @@
-ESApp.Models.Search = Backbone.Model.extend({
+ESApp.Models.Search = Backbone.RelationalModel.extend({
 
   url: '/search',
 
-  initialize: function() {},
-
-  schema: {
-    query:  { type: 'Text' },
-    facets: { type: 'List', listType: 'NestedModel', options: this.facets }
+  initialize: function(options) {
+    this.page     = 1,
+    this.total    = (options.total || 0),
+    this.perPage  = (options.perPage || 10)
   },
 
-  perform: function() {
-    $.ajax({
-      dataType: "json",
-      type: "POST",
-      data: this.toJSON(),
-      success: function(data) {
-        this.results.reset(data.results);
-        this.facets.reset(data.facets);
-      }
-    });
+  relations: [{
+    type: Backbone.HasMany,
+    key: 'facets',
+    relatedModel: 'Facet',
+    collectionType: 'Facets',
+    reverseRelation: {
+      key: 'search',
+    }
+  },
+    type: Backbone.HasMany,
+    key: 'results',
+    relatedModel: 'Tweet',
+    collectionType: 'SearchResults',
+    reverseRelation: {
+      key: 'search',
+    }
+  }],
+
+  sync: function(method, collection, success, error) {
+    var params = {
+      url     : this.url,
+      type    : "POST",
+      data    : this.toJSON(),
+      success : success,
+      error   : error
+    };
+    $.ajax(params);
+  },
+
+  parse: function(resp) {
+    this.get('results').reset(resp.results);
+    this.get('facets').reset(resp.facets);   
   }
 });
