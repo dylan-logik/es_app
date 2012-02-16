@@ -4,21 +4,29 @@ class TweetsController < ApplicationController
   def index
     response  = Tweet.all(params)
 
-    # NOTE: Move to Model or use RABL
+    # NOTE: Use RABL
     @tweets   = response.results
     @facets   = response.facets.map { |k,v| v.update({ name: k }) }
     @page     = params[:page] ? params[:page].to_i : 1
     @perPage  = 10
     @total    = response.total
-    page_info = { page: @page, perPage: @perPage, total: @total }
 
-    @response = { results: @tweets, facets: @facets, page_info: page_info }
+    @response = { results: @tweets, facets: @facets, page: @page, perPage: @perPage, total: @total }
 
     respond_with(@response)
   end
 
-  def search(params)
-    @response = Tweet.search(params)
+  def search
+    response = Tweet.search(params)
+
+    # NOTE: Use RABL
+    @tweets   = response.results
+    @facets   = response.facets.map { |k,v| v.update({ name: k }) }
+    @page     = params[:page] ? params[:page].to_i : 1
+    @perPage  = 10
+    @total    = response.total
+
+    @response = { results: @tweets, facets: @facets, page: @page, perPage: @perPage, total: @total }
     respond_with(@response)
   end
 

@@ -1,6 +1,6 @@
 ESApp.Models.Search = Backbone.RelationalModel.extend({
 
-  urlRoot: '/tweets',
+  urlRoot: '/tweets/search',
 
   relations: [{
     type: Backbone.HasMany,
@@ -24,38 +24,35 @@ ESApp.Models.Search = Backbone.RelationalModel.extend({
   initialize: function(options) {
     options || (options = {});
 
-    //this.__parsePageInfo__(options.page_info);
-
     this.filters  = [];
+    this.query    = "";
 
     this.get('facets').reset(options.facets);
     this.get('results').reset(options.results);
   },
 
-  sync: function(method, model, success, error) {
-    var u = this.url() + "?page=" + this.get('page_info').page;
+  sync: function(method, model, options) {
     var params = {
-      url       : u,
+      url       : this.url(),
       dataType  : "json",
       type      : "GET",
-      success : success,
-      error   : error
+      data      : { query: this.get('query'), page: this.get('page') },
+      success : options.success,
+      error   : options.error
     };
     $.ajax(params);
   },
 
   parse: function(resp) {
-    //this.__parsePageInfo__(resp.page_info);
+    this.__parsePageInfo__(resp);
     this.get('results').reset(resp.results);
     this.get('facets').reset(resp.facets);   
-    return false;
-  }
-/*
+  },
+
   __parsePageInfo__: function(options) {
-    console.debug(options);
-    this.set({ page: (options.page || 1) }),
-    this.set({ total: (options.total || 0) }),
-    this.set({ perPage: (options.perPage || 10)   
+    this.set( 'page', (options.page || 1) );
+    this.set( 'total', (options.total || 0) );
+    this.set( 'perPage', (options.perPage || 10) ); 
   }
-*/
+
 });

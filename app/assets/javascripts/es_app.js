@@ -5,8 +5,6 @@ var ESApp = {
   Routers: {},
   init: function(response) {
     this.search = new ESApp.Models.Search(response);
-    //this.tweets = new ESApp.Collections.SearchResults(response.tweets);
-    //this.facets = new ESApp.Collections.Facets(response.facets);
 
     new ESApp.Routers.Tweets();
     if (!Backbone.history.start()) {

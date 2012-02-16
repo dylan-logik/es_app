@@ -1,0 +1,5 @@
+<%= javascript_tag do %>
+  $(function() {
+    ESApp.init(<%== @response.to_json %>);
+  });
+<% end %>

@@ -1,6 +1,10 @@
 EsApp::Application.routes.draw do
-  resources :documents, :only => [:index, :show]
-  resources :tweets, :only => [:index, :search, :show]
+  match 'tweets/search' => 'tweets#search', :via => :get
+  resources :tweets do
+    member do
+      get 'search'
+    end
+  end
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
