@@ -1,37 +1,43 @@
 ESApp.Models.Search = Backbone.RelationalModel.extend({
 
-  urlRoot: '/search',
-
-  initialize: function(options) {
-    options || (options = {});
-    this.page     = 1,
-    this.total    = (options.total || 0),
-    this.perPage  = (options.perPage || 10)
-  },
+  urlRoot: '/tweets',
 
   relations: [{
     type: Backbone.HasMany,
     key: 'facets',
-    relatedModel: 'Facet',
-    collectionType: 'Facets',
+    relatedModel: 'ESApp.Models.Facet',
+    collectionType: 'ESApp.Collections.Facets',
     reverseRelation: {
       key: 'search',
     }
   },
+  {
     type: Backbone.HasMany,
     key: 'results',
-    relatedModel: 'Tweet',
-    collectionType: 'SearchResults',
+    relatedModel: 'ESApp.Models.Tweet',
+    collectionType: 'ESApp.Collections.SearchResults',
     reverseRelation: {
       key: 'search',
     }
   }],
 
-  sync: function(method, collection, success, error) {
+  initialize: function(options) {
+    options || (options = {});
+
+    //this.__parsePageInfo__(options.page_info);
+
+    this.filters  = [];
+
+    this.get('facets').reset(options.facets);
+    this.get('results').reset(options.results);
+  },
+
+  sync: function(method, model, success, error) {
+    var u = this.url() + "?page=" + this.get('page_info').page;
     var params = {
-      url     : this.url,
-      type    : "POST",
-      data    : this.toJSON(),
+      url       : u,
+      dataType  : "json",
+      type      : "GET",
       success : success,
       error   : error
     };
@@ -39,8 +45,17 @@ ESApp.Models.Search = Backbone.RelationalModel.extend({
   },
 
   parse: function(resp) {
+    //this.__parsePageInfo__(resp.page_info);
     this.get('results').reset(resp.results);
     this.get('facets').reset(resp.facets);   
     return false;
   }
+/*
+  __parsePageInfo__: function(options) {
+    console.debug(options);
+    this.set({ page: (options.page || 1) }),
+    this.set({ total: (options.total || 0) }),
+    this.set({ perPage: (options.perPage || 10)   
+  }
+*/
 });

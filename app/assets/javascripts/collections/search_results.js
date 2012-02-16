@@ -2,7 +2,7 @@ ESApp.Collections.SearchResults = Backbone.Collection.extend({
 
   model: ESApp.Models.Tweet,
 
-  initialize: function() {
+  initialize: function(options) {
     _.bindAll(this, 'parse', 'url', 'pageInfo', 'nextPage', 'previousPage');
     this.page = 1;
   },
@@ -31,40 +31,41 @@ ESApp.Collections.SearchResults = Backbone.Collection.extend({
   },
 
   pageInfo: function() {
+    var page_info = this.search.get('page_info');
     var info = {
-      total: this.total,
-      page: this.page,
-      perPage: this.perPage,
-      pages: Math.ceil(this.total / this.perPage),
+      page: page_info.page,
+      total: page_info.total,
+      perPage: page_info.perPage,
+      pages: Math.ceil(page_info.total / page_info.perPage),
       prev: false,
       next: false
     };
-
-    var max = Math.min(this.total, this.page * this.perPage);
+    var max = Math.min(page_info.total, page_info.page * page_info.perPage);
     
-    if (this.total == this.pages * this.perPage) {
-      max = this.total;
+    if (page_info.total == page_info.pages * page_info.perPage) {
+      max = page_info.total;
     }
 
-    info.range = [(this.page - 1) * this.perPage + 1, max];
+    info.range = [(page_info.page - 1) * page_info.perPage + 1, max];
 
-    if (this.page > 1) {
-      info.prev = this.page + 1;
+    if (page_info.page > 1) {
+      info.prev = page_info.page + 1;
     }
 
-    if (this.page < info.pages) {
-      info.next = this.page + 1;
+    if (page_info.page < info.pages) {
+      info.next = page_info.page + 1;
     }
+
     return info;
   },
 
   nextPage: function() {
-    this.page = this.page + 1;
-    this.fetch();
+    this.search.set({ 'page_info.page': this.search.get('page_info').page + 1 });
+    this.search.fetch();
   },
 
   previousPage: function() {
-    this.page = this.page - 1;
-    this.fetch();
+    this.search.set({ 'page_info.page' : this.search.get('page_info').page - 1 });
+    this.search.fetch();
   }
 });

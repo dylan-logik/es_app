@@ -1,4 +1,4 @@
-ESApp.Views.TweetsIndex = Backbone.View.extend({
+ESApp.Views.SearchResults = Backbone.View.extend({
   initialize: function(options) {
     _.bindAll(this, "render");
     this.collection.bind('refresh', this.render);

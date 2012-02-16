@@ -19,8 +19,7 @@ ESApp.Views.FacetsIndex = Backbone.View.extend({
     var self = this;
     this.collection.each(function(facet) {
       var facet_item = new ESApp.Views.FacetItem({ model: facet });
-      facet_item.render();
-      self.$('tbody > tr').append(facet_item.el);
+      self.$('tbody > tr').append(facet_item.render().el);
     });
   }
 });

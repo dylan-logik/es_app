@@ -1,24 +1,24 @@
 ESApp.Views.SearchForm = Backbone.View.extend({
-  tagName: 'form',
-  id: 'search-form',
-
-  events: {
-    "submit": "submit"
-  },
-
-  initialize: function() {
+  initialize: function(options) {
     _.bindAll(this, "render");
   },
 
   render: function() {
-    this.form = new Backbone.Form({ model: this.model });
-    $(this.el).html(this.form.render().el);
-    this.$('ul').append(JST['search/form_buttons']());
+    this.renderTemplate();
+    this.renderContent();
     return this;
   },
 
-  submit: function() {
-    this.form.commit();
-    this.model.permform();
+  renderTemplate: function() {
+    $(this.el).html(JST['search/form']());
+    Backbone.ModelBinding.bind(this);
+  },
+
+  renderContent: function() {
+    var self = this;
+    var facet_view = new ESApp.Views.FacetsIndex({ collection: this.model.get('facets') });
+    var results_view = new ESApp.Views.SearchResults({ collection: this.model.get('results') });
+    self.$('#facets').html(facet_view.render().el);
+    self.$('#results').html(results_view.render().el);
   }
 });
