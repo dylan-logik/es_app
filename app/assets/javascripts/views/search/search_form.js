@@ -1,37 +1,39 @@
 ESApp.Views.SearchForm = Backbone.View.extend({
+
+  id: "search",
+  className: "search",
+
   initialize: function(options) {
     _.bindAll(this, "render");
   },
 
   events: {
-    "click #search": "search"
+    "click #search": "search",
+    "keypress #query": "searchOnEnter",
   },
 
   render: function() {
     this.form = new Backbone.Form({ model: this.model });
-    this.renderTemplate();
-    this.renderContent();
-    return this;
-  },
 
-  renderTemplate: function() {
-    $(this.el).html(JST['search/form']());
-  },
-
-  renderContent: function() {
-    var self = this;
     var facet_view = new ESApp.Views.FacetsIndex({ collection: this.model.get('facets') });
     var results_view = new ESApp.Views.SearchResults({ collection: this.model.get('results') });
 
-    self.$('#facets').html(facet_view.render().el);
-    self.$('#results').html(results_view.render().el);
-    self.$('#query').html(this.form.render().el);
-    self.$('#query ul').append(JST['search/form_buttons']());
+    this.$el.append(this.form.render().el);
+    this.$el.find('.bbf-form ul').append(JST['search/form_buttons']());
+    this.$el.append(facet_view.render().el);
+    this.$el.append(results_view.render().el);
+    return this;
   },
 
   search: function() {
     this.form.commit();
     this.model.fetch();
     return false;
+  },
+
+  searchOnEnter: function(e) {
+    if (e.which == 13) {
+      this.search();
+    }
   }
 });

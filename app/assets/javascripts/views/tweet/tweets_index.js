@@ -1,4 +1,8 @@
 ESApp.Views.SearchResults = Backbone.View.extend({
+
+  id: "results",
+  className: "results",
+
   initialize: function(options) {
     _.bindAll(this, "render");
     this.collection.bind('reset', this.render);

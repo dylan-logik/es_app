@@ -1,4 +1,7 @@
 ESApp.Views.FacetsIndex = Backbone.View.extend({
+
+  id: "facets",
+  className: "facets",
   
   initialize: function() {
     _.bindAll(this, 'render');

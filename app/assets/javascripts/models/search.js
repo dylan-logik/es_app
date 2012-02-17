@@ -29,7 +29,7 @@ ESApp.Models.Search = Backbone.RelationalModel.extend({
     options || (options = {});
 
     this.filters  = [];
-    this.set('query', "hello world");
+    this.set('query', "");
 
     this.get('facets').reset(options.facets);
     this.get('results').reset(options.results);
