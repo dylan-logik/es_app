@@ -5,7 +5,7 @@
 //= require backbone
 //
 //= require backbone-relational.js
-//= require backbone.modelbinding.js
+//= require backbone-forms.js
 //
 //= require es_app
 //

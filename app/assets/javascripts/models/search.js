@@ -21,11 +21,15 @@ ESApp.Models.Search = Backbone.RelationalModel.extend({
     }
   }],
 
+  schema: {
+    query: { type: 'Text' }
+  },
+
   initialize: function(options) {
     options || (options = {});
 
     this.filters  = [];
-    this.set('query', "");
+    this.set('query', "hello world");
 
     this.get('facets').reset(options.facets);
     this.get('results').reset(options.results);
@@ -36,7 +40,7 @@ ESApp.Models.Search = Backbone.RelationalModel.extend({
       url       : this.url(),
       dataType  : "json",
       type      : "GET",
-      data      : { query: this.get('query'), page: this.get('page') },
+      data      : { q: this.get('query'), page: this.get('page') },
       success : options.success,
       error   : options.error
     };
@@ -44,9 +48,9 @@ ESApp.Models.Search = Backbone.RelationalModel.extend({
   },
 
   parse: function(resp) {
-    this.set( 'page', (options.page || 1) );
-    this.set( 'total', (options.total || 0) );
-    this.set( 'perPage', (options.perPage || 10) ); 
+    this.set( 'page', (resp.page || 1) );
+    this.set( 'total', (resp.total || 0) );
+    this.set( 'perPage', (resp.perPage || 10) ); 
 
     this.get('results').reset(resp.results);
     this.get('facets').reset(resp.facets);   

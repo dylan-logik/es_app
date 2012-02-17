@@ -2,7 +2,7 @@ ESApp.Views.FacetsIndex = Backbone.View.extend({
   
   initialize: function() {
     _.bindAll(this, 'render');
-    this.collection.bind('refresh', this.render);
+    this.collection.bind('reset', this.render);
   },
 
   render: function() {
