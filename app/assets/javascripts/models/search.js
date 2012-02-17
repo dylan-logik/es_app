@@ -25,7 +25,7 @@ ESApp.Models.Search = Backbone.RelationalModel.extend({
     options || (options = {});
 
     this.filters  = [];
-    this.query    = "";
+    this.set('query', "");
 
     this.get('facets').reset(options.facets);
     this.get('results').reset(options.results);
@@ -44,15 +44,11 @@ ESApp.Models.Search = Backbone.RelationalModel.extend({
   },
 
   parse: function(resp) {
-    this.__parsePageInfo__(resp);
-    this.get('results').reset(resp.results);
-    this.get('facets').reset(resp.facets);   
-  },
-
-  __parsePageInfo__: function(options) {
     this.set( 'page', (options.page || 1) );
     this.set( 'total', (options.total || 0) );
     this.set( 'perPage', (options.perPage || 10) ); 
-  }
 
+    this.get('results').reset(resp.results);
+    this.get('facets').reset(resp.facets);   
+  }
 });
