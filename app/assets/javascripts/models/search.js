@@ -21,10 +21,6 @@ ESApp.Models.Search = Backbone.RelationalModel.extend({
     }
   }],
 
-  schema: {
-    query: { type: 'Text' }
-  },
-
   initialize: function(options) {
     options || (options = {});
 

@@ -1,5 +1,7 @@
 ESApp.Views.FacetItem = Backbone.View.extend({
+
   tagName: "td",
+  className: "facet-item",
 
   initialize: function() {
     _.bindAll(this, 'render');
@@ -12,15 +14,11 @@ ESApp.Views.FacetItem = Backbone.View.extend({
   },
 
   renderTemplate: function() {
-    $(this.el).html(JST['facets/item']({ 'terms': this.model.attributes.terms }));
+    $(this.el).html(JST['facets/item']({ 'terms': this.model.get('terms') }));
   },
 
   renderContents: function() {
     this.$('.name').text(this.model.escape('name'));
     this.$('.total').text(this.model.escape('total'));
-  },
-
-  toString: function() {
-    this.model.get('name') + " <span class='facet-total'>(" + this.model.get('total') + ")</span>";
   }
 });

@@ -9,24 +9,24 @@ ESApp.Views.SearchForm = Backbone.View.extend({
 
   events: {
     "click #search": "search",
-    "keypress #query": "searchOnEnter",
+    "keyup #query": "searchOnEnter",
   },
 
   render: function() {
-    this.form = new Backbone.Form({ model: this.model });
+    this.$el.html(JST['search/form']());
 
     var facet_view = new ESApp.Views.FacetsIndex({ collection: this.model.get('facets') });
     var results_view = new ESApp.Views.SearchResults({ collection: this.model.get('results') });
 
-    this.$el.append(this.form.render().el);
-    this.$el.find('.bbf-form ul').append(JST['search/form_buttons']());
     this.$el.append(facet_view.render().el);
     this.$el.append(results_view.render().el);
+
+    Backbone.ModelBinding.bind(this);
+
     return this;
   },
 
   search: function() {
-    this.form.commit();
     this.model.fetch();
     return false;
   },

@@ -1,7 +1,7 @@
 <td><ul>
   <li class='name'>Facet Name/li>
   <li class='total'>Facet Total</li>
-  <% $.each(terms, function(index, term) { %>
-    <li><%= term.term %> (<%= term.count %>)</li>
+  <% terms.each(function(term) { %>
+    <li><%= term.get('term') %> (<%= term.get('count') %>)</li>
   <% }); %>
 </ul></td>
