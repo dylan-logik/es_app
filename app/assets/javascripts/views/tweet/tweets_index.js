@@ -42,8 +42,7 @@ ESApp.Views.SearchResults = Backbone.View.extend({
     var self = this;
     this.collection.each(function(tweet) {
       var row = new ESApp.Views.TweetItem({ model: tweet });
-      row.render();
-      self.$('tbody').append(row.el);
+      self.$('tbody').append(row.render().el);
     });
   }
 });
