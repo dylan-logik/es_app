@@ -11,7 +11,7 @@ class TweetsController < ApplicationController
     @perPage  = 10
     @total    = response.total
 
-    @response = { results: @tweets, facets: @facets, page: @page, perPage: @perPage, total: @total }
+    @response = { results: @tweets, facets: @facets, page: @page, perPage: @perPage, total: @total, took: response.time }
 
     respond_with(@response)
   end
@@ -26,7 +26,8 @@ class TweetsController < ApplicationController
     @perPage  = 10
     @total    = response.total
 
-    @response = { results: @tweets, facets: @facets, page: @page, perPage: @perPage, total: @total }
+    @response = { results: @tweets, facets: @facets, page: @page, perPage: @perPage, total: @total, took: response.time }
+
     respond_with(@response)
   end
 
