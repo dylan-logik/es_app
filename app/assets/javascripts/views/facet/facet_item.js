@@ -14,7 +14,7 @@ ESApp.Views.FacetItem = Backbone.View.extend({
   },
 
   renderTemplate: function() {
-    $(this.el).html(JST['facets/item']());
+    this.$el.html(JST['facets/item']());
   },
 
   renderContents: function() {
