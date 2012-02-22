@@ -12,18 +12,20 @@ class Tweet
 
       tire.search do |search|
         search.from( params[:page].to_i <= 1 ? 0 : (10 * (params[:page].to_i-1)) ) if params[:page]
-
         search.query do |query|
-          query.string q
-        end
-
-        if params['filter'] 
-          filters = Yajl::Parser.parse(params['filter'])
-
-          filter_type = filters.keys.first
-          filter_value = filters[filter_type]
-
-          search.filter filter_type, filter_value 
+          if params['filter']
+            filters = Yajl::Parser.parse(params['filter'])
+            filter_type = filters.keys.first
+            filter_value = filters[filter_type]
+            query.filtered do |filtered|
+              filtered.filter filter_type, filter_value
+              filtered.query do |filtered_query|
+                filtered_query.string q
+              end
+            end
+          else
+            query.string q
+          end
         end
 
         TweetFacets.facets { |f| search.instance_eval(&f) }

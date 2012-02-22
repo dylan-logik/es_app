@@ -27,7 +27,7 @@ ESApp.Models.Search = Backbone.RelationalModel.extend({
     this.filters  = [];
     this.set('query', "");
 
-    this.get('facets').reset(options.facets);
+    //this.get('facets').reset(options.facets);
     //this.get('results').reset(options.results);
   },
 
@@ -57,6 +57,6 @@ ESApp.Models.Search = Backbone.RelationalModel.extend({
     this.set( 'took', (resp.took || 0) );
 
     this.get('results').reset(resp.results);
-    //this.get('facets').reset(resp.facets);   
+    this.get('facets').reset(resp.facets);   
   }
 });

@@ -9,6 +9,10 @@ ESApp.Models.Facet = Backbone.RelationalModel.extend({
     }
   }],
 
+  initialize: function() {
+    this.set({ selected: false });
+  },
+
   selected: function() {
     var selected_terms = terms.select(function(term) { return term.get('selected'); });
     return selected_terms.length > 0
