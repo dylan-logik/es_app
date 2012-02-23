@@ -5,11 +5,14 @@ ESApp.Views.FacetTerm = Backbone.View.extend({
 
   initialize: function(options) {
     _.bindAll(this, "render");
-    this.model.on("change:selected", this.onSelect);
+  },
+  
+  events: {
+    'click input': 'onSelect'
   },
 
   onSelect: function() {
-    this.submit();
+    this.model.toggleSelect();
     return this;
   },
 
@@ -17,6 +20,5 @@ ESApp.Views.FacetTerm = Backbone.View.extend({
     this.$el.html(JST['facets/term']());
     this.$('label').text(this.model.toString()).attr('for', this.model.cid);
     this.$('.term-facet').attr('checked', this.model.get('selected')).attr('id', this.model.cid);
-    Backbone.ModelBinding.bind(this, { checkbox: "modelAttr" });
   },
 });

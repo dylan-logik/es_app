@@ -1,4 +1,6 @@
 ESApp.Models.Facet = Backbone.RelationalModel.extend({
+  idAttribute: 'name',
+
   relations: [{
     type: Backbone.HasMany,
     key: 'terms',
@@ -8,9 +10,16 @@ ESApp.Models.Facet = Backbone.RelationalModel.extend({
       key: 'facet'
     }
   }],
-
-  initialize: function() {
-    this.set({ selected: false });
+  
+  pivot: function(model, options) {
+    //console.debug('FacetModel#pivot');
+    //console.debug(model);
+    this.set({ total: model.total }, { silent: true });
+    var terms = this.get('terms');
+    selectedTerms = _.pluck(terms.selectedTerms(), 'term');
+    _.each(model.terms, function(term) { if (_.include(selectedTerms, term.term)) term.selected = true; });
+    terms.reset(model.terms, options);
+    //this.get('terms').pivot(model.terms, options);
   },
 
   selected: function() {
@@ -19,6 +28,7 @@ ESApp.Models.Facet = Backbone.RelationalModel.extend({
   },
 
   filters: function() {
+    console.debug('Facet#filters');
     return this.get('terms').filters();
   }
 

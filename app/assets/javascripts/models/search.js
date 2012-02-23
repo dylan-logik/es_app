@@ -51,12 +51,13 @@ ESApp.Models.Search = Backbone.RelationalModel.extend({
   },
 
   parse: function(resp) {
+    console.debug(resp);
     this.set( 'page', (resp.page || 1) );
     this.set( 'total', (resp.total || 0) );
     this.set( 'perPage', (resp.perPage || 10) ); 
     this.set( 'took', (resp.took || 0) );
 
     this.get('results').reset(resp.results);
-    this.get('facets').reset(resp.facets);   
+    this.get('facets').pivot(resp.facets);   
   }
 });
