@@ -4,12 +4,11 @@ var ESApp = {
   Views: {},
   Routers: {},
   init: function(response) {
-    this.tweets = new ESApp.Collections.Tweets(response.tweets);
-    this.facets = new ESApp.Collections.TweetFacets(response.facets);
+    this.search = new ESApp.Models.Search(response);
 
-    new ESApp.Routers.Tweets({ collection: response});
+    new ESApp.Routers.Tweets();
     if (!Backbone.history.start()) {
-      Backbone.history.start();
+      Backbone.history.start({ pushState: true });
       Backbone.history.started = true;
     }
   }

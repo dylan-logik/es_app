@@ -7,6 +7,7 @@ gem 'mongoid', '~> 2.4'
 gem 'bson_ext', '~> 1.3'
 gem 'therubyracer'
 gem 'ejs'
+gem 'yajl-ruby'
 
 group :assets do
   gem 'sass-rails',   '~> 3.1.5'

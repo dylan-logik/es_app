@@ -1,8 +1,11 @@
-ESApp.Views.TweetsFacetsIndex = Backbone.View.extend({
+ESApp.Views.FacetsIndex = Backbone.View.extend({
+
+  id: "facets",
+  className: "facets",
   
   initialize: function() {
     _.bindAll(this, 'render');
-    this.collection.bind('refresh', this.render);
+    this.collection.bind('reset', this.render);
   },
 
   render: function() {
@@ -19,8 +22,7 @@ ESApp.Views.TweetsFacetsIndex = Backbone.View.extend({
     var self = this;
     this.collection.each(function(facet) {
       var facet_item = new ESApp.Views.FacetItem({ model: facet });
-      facet_item.render();
-      self.$('tbody > tr').append(facet_item.el);
+      self.$('tbody > tr').append(facet_item.render().el);
     });
   }
 });

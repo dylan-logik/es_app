@@ -1,0 +1,4 @@
+<li>
+  <label for='<%= term_id %>'><%= term.term %> (<%= term.count %>)</label>
+  <input type='checkbox' id='<%= term_id %>' class='term-facet' value='<%= term_id %>' data-term='<%= term.term %>' <%= term.selected ? "checked='checked'" : "" %>>
+</li>

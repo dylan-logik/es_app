@@ -4,6 +4,8 @@
 //= require underscore
 //= require backbone
 //
+//= require backbone-relational.js
+//
 //= require es_app
 //
 //= require_tree ./models
