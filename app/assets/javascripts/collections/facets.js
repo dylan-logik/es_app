@@ -2,7 +2,6 @@ ESApp.Collections.Facets = Backbone.Collection.extend({
   model: ESApp.Models.Facet,
 
   pivot: function(facets, options) {
-    //console.debug('FacetCollection#pivot');
     options || (options = {});
     options['silent'] = true;
     _.each(this.models, function(facet, i) {
