@@ -58,6 +58,6 @@ ESApp.Models.Search = Backbone.RelationalModel.extend({
     this.set( 'took', (resp.took || 0) );
 
     this.get('results').reset(resp.results);
-    this.get('facets').pivot(resp.facets);   
+    this.get('facets').reset(resp.facets);   
   }
 });

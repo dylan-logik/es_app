@@ -8,9 +8,7 @@ ESApp.Models.FacetTerm = Backbone.RelationalModel.extend({
   toggleSelect: function() {
     console.debug('FacetTerm#toggleSelect');
     this.set({ selected: !this.get('selected') });
-    if (this.get('selected')) {
-      this.trigger('selected');
-    }
+    console.debug(this.get('selected'));
     this.get('facet').get('search').fetch();
 
     return this;

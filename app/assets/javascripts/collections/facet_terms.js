@@ -16,7 +16,7 @@ ESApp.Collections.FacetTerms = Backbone.Collection.extend({
   filters: function() {
     var field = this.facet.get('name');
     var selectedTerms = this.selectedTerms();
-    console.debug(selectedTerms);
+    console.debug({ selectedTerms: selectedTerms });
     return {
       "or": _.map(selectedTerms, function(selected) {
         var t = {};
