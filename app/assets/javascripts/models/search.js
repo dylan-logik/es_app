@@ -27,8 +27,18 @@ ESApp.Models.Search = Backbone.RelationalModel.extend({
     this.filters  = [];
     this.set('query', "");
 
-    //this.get('facets').reset(options.facets);
-    //this.get('results').reset(options.results);
+    this.on('next-page', this.nextPage);
+    this.on('prev-page', this.prevPage);    
+  },
+
+  nextPage: function() {
+    this.set('page', this.get('page') + 1);
+    this.fetch();
+  },
+
+  prevPage: function() {
+    this.set('page', this.get('page') - 1);
+    this.fetch();
   },
 
   sync: function(method, model, options) {

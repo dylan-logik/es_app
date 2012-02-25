@@ -15,6 +15,14 @@ class TweetFacets
         end
       end
     end
+
+    def retweet_facet
+      Proc.new do
+        facet 'retweet_count' do
+          terms :retweet_count 
+        end
+      end
+    end
 =begin
     def retweet_facet
       Proc.new do

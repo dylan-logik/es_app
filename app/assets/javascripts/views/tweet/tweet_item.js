@@ -24,6 +24,6 @@ ESApp.Views.TweetItem = Backbone.View.extend({
   },
 
   tweetUrl: function() {
-    return '#tweets/' + this.model.get('id');
+    return '#' + this.model.get('id');
   }
 });
