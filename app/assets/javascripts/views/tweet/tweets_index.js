@@ -7,6 +7,12 @@ ESApp.Views.SearchResults = Backbone.View.extend({
     _.bindAll(this, "render");
     this.collection.bind('reset', this.render);
     this.collection.bind('fetching', this.fetching);
+
+    this.collection.bind('add', function(model) {
+      var row = new ESApp.Views.TweetItem({ model: model })
+      this.$el.append(row.render().el);
+    }, this);
+
   },
 
   events: {
