@@ -6,7 +6,7 @@ ESApp.Routers.Tweets = Backbone.Router.extend({
 
   routes: {
     "": "index",
-    "tweets/:id": "show"
+    ":id": "show"
   },
 
   index: function() {
