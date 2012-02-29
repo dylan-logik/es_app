@@ -5,14 +5,8 @@ ESApp.Views.SearchResults = Backbone.View.extend({
 
   initialize: function(options) {
     _.bindAll(this, "render");
-    this.collection.bind('reset', this.render);
-    this.collection.bind('fetching', this.fetching);
-
-    this.collection.bind('add', function(model) {
-      var row = new ESApp.Views.TweetItem({ model: model })
-      this.$el.append(row.render().el);
-    }, this);
-
+    this.collection.on('reset', this.render);
+    this.collection.on('add', this.render);
   },
 
   events: {
@@ -30,8 +24,20 @@ ESApp.Views.SearchResults = Backbone.View.extend({
     return false;
   },
 
-  fetching: function() {
-    $(this.el).html('Fetching...');
+  sync: function(method, model, options) {
+    var params = {
+      url       : this.url(),
+      dataType  : "json",
+      type      : "GET",
+      data      : this.get('search').request(),
+      success   : options.success,
+      error     : options.error
+    };
+    $.ajax(params);
+  },
+
+  parse: function(resp) {
+    return resp.results;
   },
 
   render: function() {

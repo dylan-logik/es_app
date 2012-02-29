@@ -26,19 +26,6 @@ ESApp.Models.Search = Backbone.RelationalModel.extend({
 
     this.filters  = [];
     this.set('query', "");
-
-    this.on('next-page', this.nextPage);
-    this.on('prev-page', this.prevPage);    
-  },
-
-  nextPage: function() {
-    this.set('page', this.get('page') + 1);
-    this.fetch();
-  },
-
-  prevPage: function() {
-    this.set('page', this.get('page') - 1);
-    this.fetch();
   },
 
   sync: function(method, model, options) {
@@ -66,7 +53,12 @@ ESApp.Models.Search = Backbone.RelationalModel.extend({
     this.set( 'perPage', (resp.perPage || 10) ); 
     this.set( 'took', (resp.took || 0) );
 
-    this.get('results').add(resp.results);
     this.get('facets').pivot(resp.facets);   
+    this.get('results').reset(resp.results);
+  },
+
+  search: function(options) {
+    this.set('page', 1);
+    this.fetch(options);
   }
 });
