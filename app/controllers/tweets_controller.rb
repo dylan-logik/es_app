@@ -8,7 +8,7 @@ class TweetsController < ApplicationController
     @tweets   = response.results
     @facets   = response.facets.map { |k,v| v.update({ name: k }) }
     @page     = params[:page] ? params[:page].to_i : 1
-    @perPage  = 10
+    @perPage  = 20
     @total    = response.total
 
     @response = { results: @tweets, facets: @facets, page: @page, perPage: @perPage, total: @total, took: response.time }

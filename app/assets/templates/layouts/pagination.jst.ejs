@@ -1,1 +1,8 @@
-<span class='prev'>Previous</span><span class='next'>Next</span>
+<div id='waypoint' class='pagination'>
+  <span id='result-range'><%= page_info.range[1] %></span> of <%= page_info.total %>
+  <% if (page_info.next) { %>
+    <a href='#' class='next'>next</a>
+  <% } else { %>
+    <span>next</span>
+  <% } %>
+</div>

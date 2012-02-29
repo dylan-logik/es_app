@@ -51,6 +51,6 @@ ESApp.Collections.SearchResults = Backbone.Collection.extend({
 
   previousPage: function() {
     this.search.set('page', this.search.get('page') - 1);
-    this.fetch({ add: true, data: this.search.request() });
+    this.fetch({ add: true, data: this.search.request(), silent: true });
   }
 });
