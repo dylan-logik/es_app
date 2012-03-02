@@ -33,7 +33,6 @@ ESApp.Views.SearchResults = Backbone.View.extend({
   add: function(model) {
     var row = new ESApp.Views.TweetItem({ model: model });
     this.$('tbody').append(row.render().el);
-    console.debug(this.collection.pageInfo());
     this.$('#pagination').html(JST['layouts/pagination']({ page_info: this.collection.pageInfo() }));
     return this;
   },
