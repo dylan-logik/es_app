@@ -27,21 +27,15 @@ ESApp.Views.SearchResults = Backbone.View.extend({
   render: function() {
     this.renderTemplate();
     this.renderContents();
-
-    var opts = { offset: '100%' };
-    var self = this;
-    this.$('#waypoint').waypoint(function(e, direction) {
-      if (direction == 'down') {
-        self.next();
-      }
-    }, opts);
-
     return this;
   },
 
   add: function(model) {
     var row = new ESApp.Views.TweetItem({ model: model });
     this.$('tbody').append(row.render().el);
+    console.debug(this.collection.pageInfo());
+    this.$('#pagination').html(JST['layouts/pagination']({ page_info: this.collection.pageInfo() }));
+    return this;
   },
 
   renderTemplate: function() {
