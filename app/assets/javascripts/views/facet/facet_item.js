@@ -27,10 +27,10 @@ ESApp.Views.FacetItem = Backbone.View.extend({
     this.$('.name').text(this.model.escape('name'));
     this.$('.total').text(this.model.escape('total'));
 
-    var facet_name = this.model.get('name');
+    var facetName = this.model.get('name');
     var terms = this.$('.terms');
     _.each(this.model.get('terms'), function(term) {
-      var li = JST['facets/term']({ term_id: facet_name + "[" + term.term + "]", term: term });
+      var li = JST['facets/term']({ term_id: facetName + "[" + term.term + "]", term: term });
       terms.append(li);
     });
   },

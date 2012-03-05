@@ -1,10 +1,8 @@
-ESApp.Models.Facet = Backbone.RelationalModel.extend({
+ESApp.Models.Facet = Backbone.Model.extend({
   idAttribute: 'name',
 
   initialize: function(attributes) {
-    this.on('facet-select', function(term, selected) {
-      this.onTermSelect(term, selected);
-    });
+    this.on('facet-select', this.onTermSelect, this);
 
     _.each(attributes.terms, function(term) {
       if (typeof term.selected == 'undefined') {
@@ -16,7 +14,7 @@ ESApp.Models.Facet = Backbone.RelationalModel.extend({
   onTermSelect: function(term, selected) {
     selected || (selected = false);
     this.updateTerm(term, selected);
-    this.get('search').search();
+    this.trigger('doSearch');
   },
 
   pivot: function(attributes, options) {

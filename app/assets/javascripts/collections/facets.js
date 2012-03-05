@@ -1,16 +1,17 @@
 ESApp.Collections.Facets = Backbone.Collection.extend({
-
+  
   model: function(attr, options) {
     switch (attr['_type']) {
       case 'terms':
-        new ESApp.Models.Facet(attr, options);
+        return new ESApp.Models.Facet(attr, options);
+      case 'range':
+        return new ESApp.Models.RangeFacet(attr, options);
       default:
-        new ESApp.Models.Facet(attr, options);
+        return new ESApp.Models.Facet(attr, options);
     }
   },
 
   pivot: function(facets, options) {
-    console.debug(facets);
     options || (options = {});
     options['silent'] = true;
     _.each(this.models, function(facet, i) {

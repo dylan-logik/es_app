@@ -15,7 +15,7 @@ ESApp.Routers.Tweets = Backbone.Router.extend({
   },
 
   show: function(id) {
-    var view = new ESApp.Views.TweetShow({ model: ESApp.search.get('results').get(id) });
+    var view = new ESApp.Views.TweetShow({ model: ESApp.search.results.get(id) });
     $('body').html(view.render().el);
   }
 });
