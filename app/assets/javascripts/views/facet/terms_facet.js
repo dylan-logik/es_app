@@ -1,4 +1,4 @@
-ESApp.Views.FacetItem = Backbone.View.extend({
+ESApp.Views.TermsFacet= Backbone.View.extend({
 
   tagName: "td",
   className: "facet-item",
@@ -30,7 +30,7 @@ ESApp.Views.FacetItem = Backbone.View.extend({
     var facetName = this.model.get('name');
     var terms = this.$('.terms');
     _.each(this.model.get('terms'), function(term) {
-      var li = JST['facets/term']({ term_id: facetName + "[" + term.term + "]", term: term });
+      var li = JST['facets/term']({ termId: facetName + "[" + term.term + "]", term: term });
       terms.append(li);
     });
   },

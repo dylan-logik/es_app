@@ -1,0 +1,4 @@
+<li>
+  <label for='<%= rangeId %>'><%= (range.from || 0) %><%= (range.to ? '-' + range.to : '+') %> (<%= range.count %>)</label>
+  <input type='checkbox' id='<%= rangeId %>' class='range-facet' value='<%= rangeId %>' <%= range.selected ? "checked='check'" : "" %>>
+</li>

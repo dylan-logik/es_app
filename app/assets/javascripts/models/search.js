@@ -4,6 +4,7 @@ ESApp.Models.Search = Backbone.Model.extend({
 
   initialize: function(options) {
     options || (options = {});
+    console.debug(options);
     var pageInfo = {
       page: (options.page || 1),
       total: (options.total || 0),
@@ -14,7 +15,6 @@ ESApp.Models.Search = Backbone.Model.extend({
     this.facets = new ESApp.Collections.Facets();
     this.facets.reset(options.facets);
     this.results.reset(options.results);
-
     this.set('query', (options.query || ""));
     this.set('took', (options.took || 0));
 

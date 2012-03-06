@@ -1,4 +1,4 @@
-ESApp.Models.Facet = Backbone.Model.extend({
+ESApp.Models.TermsFacet = Backbone.Model.extend({
   idAttribute: 'name',
 
   initialize: function(attributes) {

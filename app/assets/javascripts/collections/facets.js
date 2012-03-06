@@ -3,11 +3,11 @@ ESApp.Collections.Facets = Backbone.Collection.extend({
   model: function(attr, options) {
     switch (attr['_type']) {
       case 'terms':
-        return new ESApp.Models.Facet(attr, options);
+        return new ESApp.Models.TermsFacet(attr, options);
       case 'range':
         return new ESApp.Models.RangeFacet(attr, options);
       default:
-        return new ESApp.Models.Facet(attr, options);
+        return new ESApp.Models.TermsFacet(attr, options);
     }
   },
 
@@ -22,6 +22,7 @@ ESApp.Collections.Facets = Backbone.Collection.extend({
   filters: function() {
     var and = [];
     this.each(function(facet) {
+      console.debug(facet.filters);
       var f = facet.filters();
       if (f.or.length > 0) {
         and.push(f);

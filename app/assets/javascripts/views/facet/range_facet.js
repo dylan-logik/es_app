@@ -23,10 +23,15 @@ ESApp.Views.RangeFacet = Backbone.View.extend({
     this.$('.name').text(this.model.escape('name'));
     this.$('.total').text(this.model.escape('total'));
 
-    var facetName = this.model.get('name');
-    var ranges = this.$('.ranges');
+    var rangeList = this.$('.terms');
     _.each(this.model.get('ranges'), function(range) {
-      var li = JST['facets/range']({ rangeId: facetName + '[' + 
+      var li = JST['facets/range']({ rangeId: self.rangeId(range), range: range });
+      rangeList.append(li);
+    });
   },
+
+  rangeId: function(range) {
+    return this.model.get('name') + '[' + (range.from || 0) + '-' + (range.to || 'inf') + ']';
+  }
 
 });
