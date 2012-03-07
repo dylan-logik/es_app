@@ -4,7 +4,6 @@ ESApp.Models.Search = Backbone.Model.extend({
 
   initialize: function(options) {
     options || (options = {});
-    console.debug(options);
     var pageInfo = {
       page: (options.page || 1),
       total: (options.total || 0),
@@ -43,6 +42,7 @@ ESApp.Models.Search = Backbone.Model.extend({
 
   parse: function(resp) {
     this.set('took', (resp.took || 0));
+    console.debug(resp.facets);
     this.facets.pivot(resp.facets);
     this.results.reset(resp.results);
   },

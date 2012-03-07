@@ -22,7 +22,6 @@ ESApp.Collections.Facets = Backbone.Collection.extend({
   filters: function() {
     var and = [];
     this.each(function(facet) {
-      console.debug(facet.filters);
       var f = facet.filters();
       if (f.or.length > 0) {
         and.push(f);

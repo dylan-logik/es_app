@@ -8,6 +8,10 @@ ESApp.Views.RangeFacet = Backbone.View.extend({
     this.model.bind('reset', this.render);
   },
 
+  events: {
+    'click .range-facet': 'onSelect'
+  },
+
   render: function() {
     this.renderTemplate();
     this.renderContents();
@@ -28,6 +32,11 @@ ESApp.Views.RangeFacet = Backbone.View.extend({
       var li = JST['facets/range']({ rangeId: self.rangeId(range), range: range });
       rangeList.append(li);
     });
+  },
+
+  onSelect: function(e) {
+    var target = $(e.target);
+    this.model.trigger('facetSelect', target.data('range'), target.is(':checked'));
   },
 
   rangeId: function(range) {
