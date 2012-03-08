@@ -1,6 +1,7 @@
 ESApp.Collections.SearchResults = Backbone.Collection.extend({
 
   model: ESApp.Models.Tweet,
+  url: 'tweets/search',
 
   initialize: function(options) {
     _.bindAll(this, 'parse', 'pageInfo', 'nextPage', 'previousPage');
@@ -39,11 +40,17 @@ ESApp.Collections.SearchResults = Backbone.Collection.extend({
     return info;
   },
 
+  parse: function(resp) {
+    return resp.results;
+  },
+
   nextPage: function() {
-    this.search.trigger('next-page');
+    this.search.set('page', this.search.get('page') + 1);
+    this.fetch({ add: true, data: this.search.request() });
   },
 
   previousPage: function() {
-    this.search.trigger('prev-page');
+    this.search.set('page', this.search.get('page') - 1);
+    this.fetch({ add: true, data: this.search.request(), silent: true });
   }
 });

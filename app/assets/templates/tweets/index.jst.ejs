@@ -11,18 +11,3 @@
     </tbody>
   </table>
 </div>
-<div class='pagination'>
-  <% if(page_info.pages > 1) { %>
-    <% if(page_info.prev) { %>
-      <a href="#" class="prev">previous</a>
-    <% } else { %>
-      <span>previous</span>
-    <% } %>
-    <%= page_info.range[0] %>..<%= page_info.range[1] %> of <%= page_info.total %>
-    <% if(page_info.next) { %>
-      <a href="#" class="next">next</a>
-    <% } else { %>
-      <span>next</span>
-    <% } %>
-  <% } %>
-</div>

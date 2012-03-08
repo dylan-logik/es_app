@@ -4,15 +4,9 @@ ESApp.Views.SearchResults = Backbone.View.extend({
   className: "results",
 
   initialize: function(options) {
-    _.bindAll(this, "render");
-    this.collection.bind('reset', this.render);
-    this.collection.bind('fetching', this.fetching);
-
-    this.collection.bind('add', function(model) {
-      var row = new ESApp.Views.TweetItem({ model: model })
-      this.$el.append(row.render().el);
-    }, this);
-
+    _.bindAll(this, "render", "add");
+    this.collection.on('reset', this.render);
+    this.collection.on('add', this.add);
   },
 
   events: {
@@ -30,18 +24,23 @@ ESApp.Views.SearchResults = Backbone.View.extend({
     return false;
   },
 
-  fetching: function() {
-    $(this.el).html('Fetching...');
-  },
-
   render: function() {
     this.renderTemplate();
     this.renderContents();
     return this;
   },
 
+  add: function(model) {
+    var row = new ESApp.Views.TweetItem({ model: model });
+    this.$('tbody').append(row.render().el);
+    console.debug(this.collection.pageInfo());
+    this.$('#pagination').html(JST['layouts/pagination']({ page_info: this.collection.pageInfo() }));
+    return this;
+  },
+
   renderTemplate: function() {
-    $(this.el).html(JST['tweets/index']({ page_info: this.collection.pageInfo() }));
+    this.$el.html(JST['tweets/index']());
+    this.$el.append(JST['layouts/pagination']({ page_info: this.collection.pageInfo() }));
   },
 
   renderContents: function() {

@@ -27,7 +27,7 @@ ESApp.Views.SearchForm = Backbone.View.extend({
   },
 
   search: function() {
-    this.model.fetch();
+    this.model.search();
     return false;
   },
 

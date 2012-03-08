@@ -16,7 +16,7 @@ ESApp.Models.Facet = Backbone.RelationalModel.extend({
   onTermSelect: function(term, selected) {
     selected || (selected = false);
     this.updateTerm(term, selected);
-    this.get('search').fetch();
+    this.get('search').search();
   },
 
   pivot: function(attributes, options) {
