@@ -39,8 +39,9 @@ ESApp.Models.RangeFacet = Backbone.Model.extend({
 
   selectedRanges: function() {
     var sr = [];
+    var self = this;
     _.each(this.get('ranges'), function(range) {
-      if (range.selected) sr.push(rangeToString(range));
+      if (range.selected) sr.push(self.rangeToString(range));
     });
     return sr;
   },

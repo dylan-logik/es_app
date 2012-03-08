@@ -1,4 +1,5 @@
 EsApp::Application.routes.draw do
+  root :to => 'tweets#index'
   match 'tweets/search' => 'tweets#search', :via => :get
   resources :tweets do
     member do
