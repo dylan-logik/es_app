@@ -1,4 +1,4 @@
-ESApp.Views.SearchResults = Backbone.View.extend({
+ESApp.Views.SearchResults = Support.CompositeView.extend({
 
   id: "results",
   className: "results",
@@ -45,8 +45,9 @@ ESApp.Views.SearchResults = Backbone.View.extend({
   renderContents: function() {
     var self = this;
     this.collection.each(function(tweet) {
-      var row = new ESApp.Views.TweetItem({ model: tweet });
-      self.$('tbody').append(row.render().el);
+      var tweetItem = new ESApp.Views.TweetItem({ model: tweet });
+      self.renderChild(tweetItem);
+      self.$('tbody').append(tweetItem.el);
     });
   }
 });

@@ -1,7 +1,7 @@
-ESApp.Routers.Tweets = Backbone.Router.extend({
+ESApp.Routers.Tweets = Support.SwappingRouter.extend({
   initialize: function(options) {
-    this.el = $('#body');
-    //this.model= options.model;
+    this.el = $('body');
+    this.search = options.model;
   },
 
   routes: {
@@ -11,11 +11,11 @@ ESApp.Routers.Tweets = Backbone.Router.extend({
 
   index: function() {
     var view = new ESApp.Views.SearchForm({ model: ESApp.search });
-    $('body').html(view.render().el);
+    this.swap(view);
   },
 
   show: function(id) {
     var view = new ESApp.Views.TweetShow({ model: ESApp.search.results.get(id) });
-    $('body').html(view.render().el);
+    this.swap(view);
   }
 });

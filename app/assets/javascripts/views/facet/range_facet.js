@@ -1,4 +1,4 @@
-ESApp.Views.RangeFacet = Backbone.View.extend({
+ESApp.Views.RangeFacet = Support.CompositeView.extend({
   
   tagName: 'td',
   className: 'range-facet',
@@ -13,6 +13,7 @@ ESApp.Views.RangeFacet = Backbone.View.extend({
   },
 
   render: function() {
+    console.debug("RANGE " + this.cid);
     this.renderTemplate();
     this.renderContents();
     return this;

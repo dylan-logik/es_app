@@ -1,4 +1,4 @@
-ESApp.Views.SearchForm = Backbone.View.extend({
+ESApp.Views.SearchForm = Support.CompositeView.extend({
 
   id: "search",
   className: "search",
@@ -14,11 +14,15 @@ ESApp.Views.SearchForm = Backbone.View.extend({
 
   render: function() {
     this.$el.html(JST['search/form']());
-    var facet_view = new ESApp.Views.FacetsIndex({ collection: this.model.facets });
-    var results_view = new ESApp.Views.SearchResults({ collection: this.model.results });
 
-    this.$el.append(facet_view.render().el);
-    this.$el.append(results_view.render().el);
+    var facetView = new ESApp.Views.FacetsIndex({ collection: this.model.facets });
+    var resultsView = new ESApp.Views.SearchResults({ collection: this.model.results });
+
+    this.renderChild(facetView);
+    this.renderChild(resultsView);
+
+    this.$el.append(facetView.el);
+    this.$el.append(resultsView.el);
 
     Backbone.ModelBinding.bind(this);
 

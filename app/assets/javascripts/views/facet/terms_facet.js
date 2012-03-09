@@ -1,4 +1,4 @@
-ESApp.Views.TermsFacet= Backbone.View.extend({
+ESApp.Views.TermsFacet= Support.CompositeView.extend({
 
   tagName: "td",
   className: "facet-item",
@@ -13,6 +13,7 @@ ESApp.Views.TermsFacet= Backbone.View.extend({
   },
 
   render: function() {
+    console.debug("TERMS " + this.cid);
     this.renderTemplate();
     this.renderContents();
     return this;

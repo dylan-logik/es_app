@@ -1,4 +1,4 @@
-ESApp.Views.TweetItem = Backbone.View.extend({
+ESApp.Views.TweetItem = Support.CompositeView.extend({
   tagName: "tr",
 
   initialize: function() {
