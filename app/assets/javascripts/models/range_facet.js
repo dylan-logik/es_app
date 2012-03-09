@@ -3,45 +3,51 @@ ESApp.Models.RangeFacet = Backbone.Model.extend({
 
   initialize: function(attrs, options) {
     this.on('facetSelect', this.onRangeSelect, this);
-
+    var i = 0;
     _.each(attrs.ranges, function(range) {
       if (typeof (range.selected) == 'undefined') range.selected = false;
+      range.id = i;
+      i++;
     });
   },
 
-  onRangeSelect: function(from, selected) {
+  onRangeSelect: function(rangeId, selected) {
     selected || (selected = false);
-    this.updateRange(from, selected);
+    this.updateRange(rangeId, selected);
     this.trigger('doSearch');
   },
 
   pivot: function(attrs, options) {
     var ranges = this.get('ranges');
+    var self = this;
     var selectedRanges = this.selectedRanges();
-    console.debug(selectedRanges);
+    var i = 0;
     _.each(attrs.ranges, function(range) {
-      console.debug((range.from || 0));
-      if (_.include(selectedRanges, (range.from || 0))) range.selected = true;
+      range.id = i;
+      _.each(selectedRanges, function(s) {
+        if (s.to == range.to && s.from == range.from) {
+          range.selected = true;
+        } else {
+          range.selected = false;
+        }
+      });
+      i++;
     });
+
     this.set({ ranges: attrs.ranges });
     this.trigger('reset');
   },
 
-  updateRange: function(from, selected) {
+  updateRange: function(rangeId, selected) {
     _.find(this.get('ranges'), function(r) {
-      if (typeof (r.from) == 'undefined' && from == 0) {
-        return true;
-      } else {
-        return r.from == from;
-      }
-    }).selected = selected; 
+      return r.id == rangeId;
+    }).selected = selected;
   },
 
   selectedRanges: function() {
     var sr = [];
-    var self = this;
     _.each(this.get('ranges'), function(range) {
-      if (range.selected) sr.push(self.rangeToString(range));
+      if (range.selected) sr.push(range);
     });
     return sr;
   },
@@ -54,9 +60,5 @@ ESApp.Models.RangeFacet = Backbone.Model.extend({
         return { "range": t }
       })
     };
-  },
-
-  rangeToString: function(range) {
-    return (range.from || 0).toString() + '-' + (range.to || 'inf').toString();
   }
 });

@@ -28,6 +28,7 @@ ESApp.Views.RangeFacet = Backbone.View.extend({
     this.$('.total').text(this.model.escape('total'));
 
     var rangeList = this.$('.terms');
+    var i = 0;
     _.each(this.model.get('ranges'), function(range) {
       var li = JST['facets/range']({ rangeId: self.rangeId(range), range: range });
       rangeList.append(li);

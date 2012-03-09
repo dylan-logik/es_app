@@ -8,6 +8,7 @@ gem 'bson_ext', '~> 1.3'
 gem 'therubyracer'
 gem 'ejs'
 gem 'yajl-ruby'
+gem 'backbone-support'
 
 group :assets do
   gem 'sass-rails',   '~> 3.1.5'

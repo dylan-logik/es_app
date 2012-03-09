@@ -5,10 +5,12 @@ ESApp.Views.FacetsIndex = Backbone.View.extend({
   
   initialize: function() {
     _.bindAll(this, 'render');
-    this.collection.bind('reset', this.render);
+    //this.collection.bind('reset', this.render);
   },
 
   render: function() {
+    // THIS IS GETTING CALLED EVERYTHING YOU CLICK A FACET!
+    console.debug(this);
     this.renderTemplate();
     this.renderContents();
     return this;

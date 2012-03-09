@@ -1,6 +1,6 @@
 ESApp.Routers.Tweets = Backbone.Router.extend({
   initialize: function(options) {
-    this.el = $('#tweets');
+    this.el = $('#body');
     //this.model= options.model;
   },
 

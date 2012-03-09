@@ -3,8 +3,7 @@
 //
 //= require underscore
 //= require backbone
-//
-//= require backbone-relational.js
+//= require backbone-support
 //
 //= require es_app
 //

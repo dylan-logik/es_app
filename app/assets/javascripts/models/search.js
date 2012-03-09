@@ -42,7 +42,6 @@ ESApp.Models.Search = Backbone.Model.extend({
 
   parse: function(resp) {
     this.set('took', (resp.took || 0));
-    console.debug(resp.facets);
     this.facets.pivot(resp.facets);
     this.results.reset(resp.results);
   },
