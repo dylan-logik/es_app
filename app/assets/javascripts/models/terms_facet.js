@@ -2,7 +2,7 @@ ESApp.Models.TermsFacet = Backbone.Model.extend({
   idAttribute: 'name',
 
   initialize: function(attributes) {
-    this.on('facet-select', this.onTermSelect, this);
+    this.on('facetSelect', this.onTermSelect, this);
 
     _.each(attributes.terms, function(term) {
       if (typeof term.selected == 'undefined') {

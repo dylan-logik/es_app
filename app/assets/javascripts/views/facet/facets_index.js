@@ -2,14 +2,13 @@ ESApp.Views.FacetsIndex = Support.CompositeView.extend({
 
   id: "facets",
   className: "facets",
+  type: 'facets_index',
   
   initialize: function() {
     _.bindAll(this, 'render');
   },
 
   render: function() {
-    // THIS IS GETTING CALLED EVERYTHING YOU CLICK A FACET!
-    console.debug("FACET_INDEX" + this.cid);
     this.renderTemplate();
     this.renderContents();
     return this;

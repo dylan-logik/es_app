@@ -1,5 +1,6 @@
 ESApp.Views.TweetItem = Support.CompositeView.extend({
   tagName: "tr",
+  type: 'tweet_item',
 
   initialize: function() {
     _.bindAll(this, "render");
@@ -20,7 +21,6 @@ ESApp.Views.TweetItem = Support.CompositeView.extend({
     this.$('#user').text(this.model.get('user').name);
     this.$('#content').text(this.model.escape('text'));
     details.attr("href", this.tweetUrl());
-    //details.data('id', this.model.id);
   },
 
   tweetUrl: function() {

@@ -2,6 +2,7 @@ ESApp.Views.RangeFacet = Support.CompositeView.extend({
   
   tagName: 'td',
   className: 'range-facet',
+  type: 'range',
 
   initialize: function() {
     _.bindAll(this, 'render');
@@ -13,7 +14,6 @@ ESApp.Views.RangeFacet = Support.CompositeView.extend({
   },
 
   render: function() {
-    console.debug("RANGE " + this.cid);
     this.renderTemplate();
     this.renderContents();
     return this;
@@ -31,8 +31,13 @@ ESApp.Views.RangeFacet = Support.CompositeView.extend({
     var rangeList = this.$('.terms');
     var i = 0;
     _.each(this.model.get('ranges'), function(range) {
-      var li = JST['facets/range']({ rangeId: self.rangeId(range), range: range });
-      rangeList.append(li);
+      var rangeId = self.rangeId(range);
+      var $li = $(JST['facets/range']({ rangeId: rangeId, range: range }));
+      rangeList.append($li);
+      if (range.selected) {
+        $li.children('input').prop("checked", true);
+        console.debug($li);
+      }
     });
   },
 

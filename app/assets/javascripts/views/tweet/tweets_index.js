@@ -2,6 +2,7 @@ ESApp.Views.SearchResults = Support.CompositeView.extend({
 
   id: "results",
   className: "results",
+  type: 'results',
 
   initialize: function(options) {
     _.bindAll(this, "render", "add");
@@ -26,20 +27,22 @@ ESApp.Views.SearchResults = Support.CompositeView.extend({
 
   render: function() {
     this.renderTemplate();
+    this._leaveChildren();
     this.renderContents();
     return this;
   },
 
   add: function(model) {
-    var row = new ESApp.Views.TweetItem({ model: model });
-    this.$('tbody').append(row.render().el);
-    this.$('#pagination').html(JST['layouts/pagination']({ page_info: this.collection.pageInfo() }));
+    var tweetItem = new ESApp.Views.TweetItem({ model: model });
+    this.renderChild(tweetItem);
+    this.$('tbody').append(tweetItem.el);
+    this.$('#pagination').html(JST['layouts/pagination']({ pageInfo: this.collection.pageInfo() }));
     return this;
   },
 
   renderTemplate: function() {
     this.$el.html(JST['tweets/index']());
-    this.$el.append(JST['layouts/pagination']({ page_info: this.collection.pageInfo() }));
+    this.$el.append(JST['layouts/pagination']({ pageInfo: this.collection.pageInfo() }));
   },
 
   renderContents: function() {
