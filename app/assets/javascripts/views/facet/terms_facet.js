@@ -2,7 +2,6 @@ ESApp.Views.TermsFacet= Support.CompositeView.extend({
 
   tagName: "td",
   className: "facet-item",
-  type: 'terms',
 
   initialize: function() {
     _.bindAll(this, 'render');
@@ -22,11 +21,11 @@ ESApp.Views.TermsFacet= Support.CompositeView.extend({
 
   renderContents: function() {
     var self = this;
-    this.$('.name').text(this.model.escape('name'));
-    this.$('.total').text(this.model.escape('total'));
+    this.$('.facet-name > strong').text(this.model.prettyName());
+    this.$('.facet-total').text(this.model.escape('total'));
 
     var facetName = this.model.get('name').replace('.', '-');
-    var $terms = this.$('.terms');
+    var $terms = this.$('.facet-terms');
     $.each(this.model.get('terms'), function(index, term) {
       var termId = facetName + '-' + term.term;
       var li = JST['facets/term']({ termId: termId, term: term });

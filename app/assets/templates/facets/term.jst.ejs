@@ -1,4 +1,6 @@
 <li>
-  <label for='<%= termId %>'><%= term.term %> (<%= term.count %>)</label>
-  <input type='checkbox' id='<%= termId %>' class='term-facet' data-term='<%= term.term %>' />
+  <label class='checkbox'>
+    <input type='checkbox' id='<%= termId %>' class='term-facet' data-term='<%= term.term %>' />
+    <%= term.term %> (<%= term.count %>)
+  </label>
 </li>

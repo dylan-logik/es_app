@@ -17,10 +17,16 @@ ESApp.Views.TweetItem = Support.CompositeView.extend({
   },
 
   renderContents: function() {
-    var details = this.$('.details');
     this.$('#user').text(this.model.get('user').name);
     this.$('#content').text(this.model.escape('text'));
-    details.attr("href", this.tweetUrl());
+    this.$('.details').attr("href", this.tweetUrl());
+
+    this.$('.collapse > p').text(this.model.cid);
+    var collapseId = 'collapse' + this.model.cid;
+    this.$('.hentry').attr('href', '#' + collapseId); 
+    this.$('.collapse').attr('id', collapseId).collapse({
+      toggle: false
+    });
   },
 
   tweetUrl: function() {

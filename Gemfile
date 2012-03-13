@@ -15,7 +15,7 @@ group :assets do
   gem 'twitter-bootstrap-rails'
 end
 
-#gem 'jquery-rails'
+gem 'jquery-rails'
 
 #gem 'ruby-debug19', :require => 'ruby-debug'
 

@@ -1,11 +1,9 @@
-//= require jquery-1.7.1.min.js
+//= require jquery
+//= require jquery_ujs
 //
 //= require underscore
 //= require backbone
-//
-//= require support
-//= require composite_view
-//= require swapping_router
+//= require backbone-support
 //
 //= require twitter/bootstrap
 //

@@ -2,7 +2,6 @@ ESApp.Views.FacetsIndex = Support.CompositeView.extend({
 
   id: "facets",
   className: "facets",
-  type: 'facets_index',
   
   initialize: function() {
     _.bindAll(this, 'render');
@@ -23,7 +22,7 @@ ESApp.Views.FacetsIndex = Support.CompositeView.extend({
     this.collection.each(function(facet) {
       var facetItem = new ESApp.Views[self.facetToString(facet)]({ model: facet });
       self.renderChild(facetItem);
-      self.$('tbody > tr').append(facetItem.el);
+      self.$('.row').append(facetItem.el);
     });
   },
 

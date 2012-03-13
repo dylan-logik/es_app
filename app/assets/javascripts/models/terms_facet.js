@@ -46,5 +46,11 @@ ESApp.Models.TermsFacet = Backbone.Model.extend({
 
   updateTerm: function(term, selected) {
     _.find(this.get('terms'), function(t) { return t.term == term; }).selected = selected;
+  },
+
+  prettyName: function() {
+    return $.map(this.escape('name').split('.'), function(part) {
+      return part.charAt(0).toUpperCase() + part.slice(1); })
+    .join(' ');
   }
 });
