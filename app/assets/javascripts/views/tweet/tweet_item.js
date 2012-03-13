@@ -19,8 +19,8 @@ ESApp.Views.TweetItem = Support.CompositeView.extend({
   renderContents: function() {
     this.$('#user').text(this.model.get('user').name);
     this.$('#content').text(this.model.escape('text'));
-    this.$('.details').attr("href", this.tweetUrl());
-
+    this.$('.time-stamp').text($.format.date(this.model.get('created_at'), 'ddd MMMM dd, yyyy hh:mma')); 
+    this.$('.screen_name').text('@' + this.model.get('user').screen_name);
     this.$('.collapse > p').text(this.model.cid);
     var collapseId = 'collapse' + this.model.cid;
     this.$('.hentry').attr('href', '#' + collapseId); 
