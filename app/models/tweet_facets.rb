@@ -11,7 +11,7 @@ class TweetFacets
     def user_facet
       Proc.new do
         facet 'user.name' do
-          terms :'user.name'
+          terms :'user.name.untouched'
         end
       end
     end

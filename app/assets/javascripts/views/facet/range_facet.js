@@ -2,7 +2,6 @@ ESApp.Views.RangeFacet = Support.CompositeView.extend({
   
   tagName: 'td',
   className: 'range-facet',
-  type: 'range',
 
   initialize: function() {
     _.bindAll(this, 'render');
@@ -14,30 +13,25 @@ ESApp.Views.RangeFacet = Support.CompositeView.extend({
   },
 
   render: function() {
-    this.renderTemplate();
+    this.$el.html(JST['facets/item']());
     this.renderContents();
     return this;
   },
 
-  renderTemplate: function() {
-    this.$el.html(JST['facets/item']());
-  },
-
   renderContents: function() {
     var self = this;
-    this.$('.name').text(this.model.escape('name'));
-    this.$('.total').text(this.model.escape('total'));
+    this.$('.facet-name > strong').text(this.model.prettyName());
+    this.$('.facet-total').remove();
 
-    var rangeList = this.$('.terms');
+    var rangeList = this.$('.facet-terms');
     var i = 0;
     _.each(this.model.get('ranges'), function(range) {
       var rangeId = self.rangeId(range);
-      var $li = $(JST['facets/range']({ rangeId: rangeId, range: range }));
-      rangeList.append($li);
+      var li = JST['facets/range']({ rangeId: rangeId, range: range });
       if (range.selected) {
-        $li.children('input').prop("checked", true);
-        console.debug($li);
+        $(li).children('input').prop("checked", true);
       }
+      rangeList.append(li);
     });
   },
 

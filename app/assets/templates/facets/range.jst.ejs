@@ -1,4 +1,6 @@
 <li>
-  <label for='<%= rangeId %>'><%= (range.from || 0) %><%= (range.to ? '-' + range.to : '+') %> (<%= range.count %>)</label>
-  <input type='checkbox' id='<%= rangeId %>' class='range-facet' data-range='<%= range.id %>'>
+  <label class='checkbox'>
+    <input type='checkbox' id='<%= rangeId %>' class='range-facet' data-term='<%= rangeId %>'>
+    <%= (range.from || 0) %><%= (range.to ? '-' + range.to : '+') %> (<%= range.count %>)
+  </label>
 </li>

@@ -40,7 +40,6 @@ ESApp.Views.TermsFacet= Support.CompositeView.extend({
     _.each(selectedTerms, function(term) {
       var termId = facetName + '-' + term
       var t = self.$("input[data-term='" + term + "']");
-      console.debug(t);
       t.prop("checked", true);
     });
   },

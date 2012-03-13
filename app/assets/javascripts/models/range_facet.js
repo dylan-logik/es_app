@@ -60,5 +60,11 @@ ESApp.Models.RangeFacet = Backbone.Model.extend({
         return { "range": t }
       })
     };
+  },
+
+  prettyName: function() {
+    return $.map(this.escape('name').split('_'), function(part) {
+      return part.charAt(0).toUpperCase() + part.slice(1); })
+    .join(' ');
   }
 });
