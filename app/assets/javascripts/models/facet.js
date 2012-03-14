@@ -1,9 +1,25 @@
-ESApp.Models.Facet = Backbone.Model.extend({
+ESApp.Mixins.Facet = Backbone.Model.extend({
 
   // NOTE: Override these methods in subclass
   idAttribute: 'name',
-  isSelectedItem: function() {},
   type: 'facet',
+  boolType: 'or',
+  isSelectedItem: function(item) {},
+  itemFilter: function() {},
+
+  initialize: function(attrs) {
+    this.on('facetSelect', this.onSelect, this);
+    
+    _.each(attrs[this.type], function(item) {
+      if (typeof(item.selected) == 'undefined') {
+        item.selected = false;
+      }
+    });
+  },
+
+  selectedItems: function() {
+    return _.filter(this.get(this.type), function(item) { return item.selected; });
+  },
 
   onSelect: function(id, selected) {
     selected || (selected = false);
@@ -19,8 +35,23 @@ ESApp.Models.Facet = Backbone.Model.extend({
     var self = this;
     _.chain(attrs[this.type])
       .filter(function(item) { return self.isSelectedItem(item); })
-      .map(function(item) { item.selected = true })
-    this.reset(attrs);
+      .each(function(item) { item.selected = true })
+    this.reset(attrs, options);
   },
 
+  filters: function() {
+    var filter = {};
+    filter[this.boolType] = _.map(this.selectedItems(), function(item) {
+      return this.itemFilter(item);
+    });
+    return filter;
+  },
+
+  prettyName: function() {
+    return _.map(this.escape('name').split('.').split('_'),
+      function(part) {
+        return part.charAt(0).toUpperCase() + part.slice(1);
+      })
+    .join(' ');
+  }
 });

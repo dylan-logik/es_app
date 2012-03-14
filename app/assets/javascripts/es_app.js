@@ -1,4 +1,5 @@
 var ESApp = {
+  Mixins: {},
   Models: {},
   Collections: {},
   Views: {},
