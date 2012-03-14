@@ -1,9 +1,8 @@
 ESApp.Models.Facet = Backbone.Model.extend({
 
+  // NOTE: Override these methods in subclass
   idAttribute: 'name',
-
-  items: function() {},
-  selectedItems: function() {},
+  isSelectedItem: function() {},
   type: 'facet',
 
   onSelect: function(id, selected) {
@@ -12,12 +11,16 @@ ESApp.Models.Facet = Backbone.Model.extend({
     this.trigger('doSearch');
   },
 
-  pivot: function(attrs, options) {
-    var items = this.items();
-    var self = this;
+  updateItem: function(id, selected) {
+    this.get(this.type)[id].selected = selected;
+  },
 
-    var selectedItems = this.selectedItem();
-    _.each(attrs[type]
+  pivot: function(attrs, options) {
+    var self = this;
+    _.chain(attrs[this.type])
+      .filter(function(item) { return self.isSelectedItem(item); })
+      .map(function(item) { item.selected = true })
+    this.reset(attrs);
   },
 
 });
