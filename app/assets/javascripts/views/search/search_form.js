@@ -9,7 +9,6 @@ ESApp.Views.SearchForm = Support.CompositeView.extend({
 
   events: {
     "click #search": "search",
-    "keyup #query": "searchOnEnter",
   },
 
   render: function() {
@@ -32,11 +31,5 @@ ESApp.Views.SearchForm = Support.CompositeView.extend({
   search: function() {
     this.model.search();
     return false;
-  },
-
-  searchOnEnter: function(e) {
-    if (e.which == 13) {
-      this.search();
-    }
   }
 });

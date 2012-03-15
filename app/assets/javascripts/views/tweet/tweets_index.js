@@ -34,14 +34,12 @@ ESApp.Views.SearchResults = Support.CompositeView.extend({
   add: function(model) {
     var tweetItem = new ESApp.Views.TweetItem({ model: model });
     this.renderChild(tweetItem);
-    this.$('ul').append(tweetItem.el);
-    this.$('#pagination').html(JST['layouts/pagination']({ pageInfo: this.collection.pageInfo() }));
+    this.$('#tweets-list').append(tweetItem.el);
     return this;
   },
 
   renderTemplate: function() {
     this.$el.html(JST['tweets/index']());
-    this.$el.append(JST['layouts/pagination']({ pageInfo: this.collection.pageInfo() }));
   },
 
   renderContents: function() {
@@ -49,7 +47,7 @@ ESApp.Views.SearchResults = Support.CompositeView.extend({
     this.collection.each(function(tweet) {
       var tweetItem = new ESApp.Views.TweetItem({ model: tweet });
       self.renderChild(tweetItem);
-      self.$('ul').append(tweetItem.el);
+      self.$('#tweets-list').append(tweetItem.el);
     });
   }
 });
