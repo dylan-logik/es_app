@@ -1,6 +1,6 @@
 ESApp.Routers.Tweets = Support.SwappingRouter.extend({
   initialize: function(options) {
-    this.el = $('body');
+    this.el = $('.container');
     this.search = options.model;
   },
 

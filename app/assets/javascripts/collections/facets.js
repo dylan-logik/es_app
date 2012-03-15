@@ -15,7 +15,9 @@ ESApp.Collections.Facets = Backbone.Collection.extend({
     options || (options = {});
     options['silent'] = true;
     _.each(this.models, function(facet, i) {
-      facet.pivot(facets[i], options);
+      if (!facet.locked()) {
+        facet.pivot(facets[i], options);
+      }
     });
   },
 

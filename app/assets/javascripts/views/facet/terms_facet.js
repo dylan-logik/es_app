@@ -7,6 +7,7 @@ ESApp.Views.TermsFacet = Support.CompositeView.extend(
     this.removeTotal();
     this.renderContents();
     this.toggleBool();
+    this.renderPopover();
     return this;
   },
 

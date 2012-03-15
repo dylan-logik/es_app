@@ -1,6 +1,5 @@
 ESApp.Views.TweetItem = Support.CompositeView.extend({
-  tagName: "tr",
-  type: 'tweet_item',
+  tagName: 'li',
 
   initialize: function() {
     _.bindAll(this, "render");

@@ -46,6 +46,10 @@ ESApp.Mixins.Facet = {
     this.set(attrs);
   },
 
+  locked: function() {
+    return false;
+  },
+
   filters: function() {
     var self = this;
     var filter = {};

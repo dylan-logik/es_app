@@ -1,5 +1,5 @@
 ESApp.Mixins.FacetView = {
-  className: 'facet span4',
+  className: 'facet span3',
   
   initialize: function() {
     _.bindAll(this, 'render', 'toggleBool');
@@ -33,8 +33,15 @@ ESApp.Mixins.FacetView = {
   },
 
   toggleBool: function() {
-    console.debug(this);
     this.$('.btn-group > #booltype-btn-' + this.model.boolType).button('toggle');
+  },
+
+  renderPopover: function() {
+    var opts = {
+      title: 'Facet Boolean Operations',
+      content: 'Click a boolean operator to change how facets are pivoted'
+    };
+    this.$('.facet-name > strong').popover(opts);
   },
 
   onSelect: function(e) {

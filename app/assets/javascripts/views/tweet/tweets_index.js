@@ -1,7 +1,7 @@
 ESApp.Views.SearchResults = Support.CompositeView.extend({
 
   id: "results",
-  className: "results",
+  className: "results row",
 
   initialize: function(options) {
     _.bindAll(this, "render", "add");

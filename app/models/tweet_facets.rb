@@ -35,6 +35,14 @@ class TweetFacets
       end
     end
 
+    def mention_facet
+      Proc.new do
+        facet 'mention.screen_name' do
+          terms :'mention.screen_name'
+        end
+      end
+    end
+
     def facets
       self.methods.select { |m| m =~ /.*_facet$/ }.each do |f|
         yield self.send(f)

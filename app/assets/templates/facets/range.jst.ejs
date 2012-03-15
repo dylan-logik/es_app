@@ -1,5 +1,5 @@
 <li>
-  <label class='checkbox'>
+  <label class='checkbox facet-item-label <%= range.selected ? "selected": "" %>'>
     <input type='checkbox' id='<%= rangeId %>' class='facet-item' data-item='<%= index %>' <%= range.selected ? "checked='checked'" : null %>>
     <%= (range.from || 0) %><%= (range.to ? '-' + range.to : '+') %> (<%= range.count %>)
   </label>

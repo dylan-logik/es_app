@@ -16,6 +16,18 @@
 // Example:
 // @linkColor: #ff0000;
 
+.facet-item-label {
+  color: @grayLight;
+}
+
+.facet-item-label.selected {
+  color: @textColor;
+}
+
+.facet-item-label:hover {
+  color: @textColor;
+}
+
 .hentry {
   border-bottom: 1px solid #eee;
   padding: 1em 0;
@@ -47,4 +59,13 @@ li:last-child .hentry, #content > .hentry {
 
 #tweets-list .hentry:hover {
   cursor: pointer;
+}
+
+.facet-item-label:hover {
+  cursor: pointer;
+}
+
+.accordion-group {
+  margin-bottom: 0;
+  border: 0;
 }
