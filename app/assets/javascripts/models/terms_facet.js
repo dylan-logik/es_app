@@ -5,7 +5,7 @@ ESApp.Models.TermsFacet = Backbone.Model.extend(
   boolType: 'or',
 
   isSelectedItem: function(term) {
-    return _.include(_.pluck(this.get('terms'), 'term'), term.term);
+    return _.include(_.pluck(this.selectedItems(), 'term'), term.term);
   },
 
   itemFilter: function(term) {

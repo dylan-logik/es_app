@@ -1,4 +1,4 @@
-ESApp.Mixins.Facet = Backbone.Model.extend({
+ESApp.Mixins.Facet = {
 
   // NOTE: Override these methods in subclass
   idAttribute: 'name',
@@ -36,22 +36,24 @@ ESApp.Mixins.Facet = Backbone.Model.extend({
     _.chain(attrs[this.type])
       .filter(function(item) { return self.isSelectedItem(item); })
       .each(function(item) { item.selected = true })
-    this.reset(attrs, options);
+      .value();
+    this.set(attrs);
   },
 
   filters: function() {
+    var self = this;
     var filter = {};
     filter[this.boolType] = _.map(this.selectedItems(), function(item) {
-      return this.itemFilter(item);
+      return self.itemFilter(item);
     });
     return filter;
   },
 
   prettyName: function() {
-    return _.map(this.escape('name').split('.').split('_'),
+    return _.map(this.escape('name').split(/[\._]/),
       function(part) {
         return part.charAt(0).toUpperCase() + part.slice(1);
       })
     .join(' ');
   }
-});
+};
