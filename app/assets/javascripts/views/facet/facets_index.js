@@ -1,20 +1,16 @@
 ESApp.Views.FacetsIndex = Support.CompositeView.extend({
 
   id: "facets",
-  className: "facets",
+  className: "facets row",
   
   initialize: function() {
     _.bindAll(this, 'render');
   },
 
   render: function() {
-    this.renderTemplate();
+    this.$el.html(JST['facets/index']());
     this.renderContents();
     return this;
-  },
-
-  renderTemplate: function() {
-    $(this.el).html(JST['facets/index']());
   },
 
   renderContents: function() {

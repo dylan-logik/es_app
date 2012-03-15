@@ -1,5 +1,5 @@
 ESApp.Mixins.FacetView = {
-  className: 'facet row',
+  className: 'facet span4',
   
   initialize: function() {
     _.bindAll(this, 'render');
@@ -10,15 +10,20 @@ ESApp.Mixins.FacetView = {
     'click .facet-item': 'onSelect'
   },
 
-  render: function() {
-    this.$el.html(JST['facets/item']());
+  renderName: function() {
     this.$('.facet-name > strong').text(this.model.prettyName());
-    this.renderContents();
-    return this;
+  },
+  
+  renderTotal: function() {
+    this.$('.facet-total').text(this.model.escape('total'));
+  },
+
+  renderTemplate: function() {
+    this.$el.html(JST['facets/item']());
   },
 
   onSelect: function(e) {
     var $target = $(e.target);
-    this.model.trigger('facetSelect', target.data('item'), target.is(':checked'));
+    this.model.trigger('facetSelect', $target.data('item'), $target.is(':checked'));
   }
 };

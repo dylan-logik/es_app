@@ -2,7 +2,7 @@ ESApp.Models.TermsFacet = Backbone.Model.extend(
   _.extend({}, ESApp.Mixins.Facet, {
 
   type: 'terms',
-  boolType: 'or',
+  boolType: 'and',
 
   isSelectedItem: function(term) {
     return _.include(_.pluck(this.selectedItems(), 'term'), term.term);
