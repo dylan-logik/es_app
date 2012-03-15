@@ -9,6 +9,7 @@ ESApp.Mixins.Facet = {
 
   initialize: function(attrs) {
     this.on('facetSelect', this.onSelect, this);
+    this.on('toggleBool', this.onToggleBool, this);
     
     _.each(attrs[this.type], function(item) {
       if (typeof(item.selected) == 'undefined') {
@@ -25,6 +26,11 @@ ESApp.Mixins.Facet = {
     selected || (selected = false);
     this.updateItem(id, selected);
     this.trigger('doSearch');
+  },
+
+  onToggleBool: function(bool) {
+    this.boolType = bool;
+    this.trigger('change:boolType');
   },
 
   updateItem: function(id, selected) {

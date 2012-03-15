@@ -23,7 +23,6 @@ ESApp.Collections.Facets = Backbone.Collection.extend({
     var and = [];
     this.each(function(facet) {
       var f = facet.filters();
-      console.debug(f);
       if (f[facet.boolType].length > 0) {
         and.push(f);
       }

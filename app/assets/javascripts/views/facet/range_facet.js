@@ -4,14 +4,15 @@ ESApp.Views.RangeFacet = Support.CompositeView.extend(
   render: function() {
     this.renderTemplate();
     this.renderName()
-    this.$('.facet-total').remove();
+    this.removeTotal();
     this.renderContents();
+    this.toggleBool(); //maybe move out of render. still need a place to initialize
     return this;
   },
 
   renderContents: function() {
     var self = this;
-    var $items = this.$('.facet-items');
+    var $items = this.items();
     $.each(this.model.get('ranges'), function(index, range) {
       var li = JST['facets/range']({ index: index, rangeId: self.rangeId(range), range: range });
       $items.append(li);

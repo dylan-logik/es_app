@@ -4,14 +4,15 @@ ESApp.Views.TermsFacet = Support.CompositeView.extend(
   render: function() {
     this.renderTemplate();
     this.renderName();
-    this.renderTotal();
+    this.removeTotal();
     this.renderContents();
+    this.toggleBool();
     return this;
   },
 
   renderContents: function() {
     var self = this;
-    var $items = this.$('.facet-items');
+    var $items = this.items();
     $.each(this.model.get('terms'), function(index, term) {
       var li = JST['facets/term']({ index: index, termId: self.termId(term), term: term });
       $items.append(li);
