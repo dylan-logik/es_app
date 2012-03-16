@@ -43,6 +43,14 @@ class TweetFacets
       end
     end
 
+    def retweet_stats_facet
+      Proc.new do
+        facet 'retweet_count_stats' do
+          statistical :'retweet_count'
+        end
+      end
+    end
+
     def facets
       self.methods.select { |m| m =~ /.*_facet$/ }.each do |f|
         yield self.send(f)

@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 gem 'rails', '~> 3.2'
 
-gem 'tire', '~> 0.3'
+gem 'tire', '= 0.4.0.pre'
 gem 'therubyracer'
 gem 'ejs'
 gem 'yajl-ruby'
