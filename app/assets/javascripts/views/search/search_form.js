@@ -14,8 +14,8 @@ ESApp.Views.SearchForm = Support.CompositeView.extend({
   render: function() {
     this.$el.html(JST['search/form']());
 
-    var facetView = new ESApp.Views.FacetsIndex({ collection: this.model.facets });
-    var resultsView = new ESApp.Views.SearchResults({ collection: this.model.results });
+    var facetView   = new ESApp.Views.FacetsIndex({ collection: this.model.facets });
+    var resultsView = new ESApp.Views.Results({ collection: this.model.results, facets: this.model.facets });
 
     this.renderChild(facetView);
     this.renderChild(resultsView);

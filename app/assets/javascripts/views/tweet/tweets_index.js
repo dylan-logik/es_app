@@ -1,32 +1,24 @@
 ESApp.Views.SearchResults = Support.CompositeView.extend({
-
-  id: "results",
-  className: "results row",
+  id: 'tweets-tab',
+  className: 'tab-pane row',
 
   initialize: function(options) {
-    _.bindAll(this, "render", "add");
+    _.bindAll(this, 'render', 'add');
     this.collection.on('reset', this.render);
     this.collection.on('add', this.add);
   },
 
   events: {
-    'click button.prev': 'previous',
     'click button.next': 'next'
-  },
-
-  previous: function() {
-    this.collection.previousPage();
-    return false;
   },
 
   next: function() {
     this.collection.nextPage();
-    return false;
   },
 
   render: function() {
-    this.renderTemplate();
     this._leaveChildren();
+    this.renderTemplate();
     this.renderContents();
     return this;
   },

@@ -21,6 +21,7 @@ ESApp.Collections.Facets = Backbone.Collection.extend({
         facet.pivot(facets[i], options);
       }
     });
+    this.trigger('pivot');
   },
 
   filters: function() {

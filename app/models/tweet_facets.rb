@@ -43,6 +43,14 @@ class TweetFacets
       end
     end
 
+    def date_range_facet
+      Proc.new do
+        facet 'created_at' do
+          date :'created_at', { interval: 'minute' }
+        end
+      end
+    end
+
     def retweet_stats_facet
       Proc.new do
         facet 'retweet_count_stats' do

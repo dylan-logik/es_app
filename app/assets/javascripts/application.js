@@ -7,6 +7,7 @@
 //
 //= require twitter/bootstrap
 //= require jquery.dateFormat-1.0
+//= require highstock
 //
 //= require es_app
 //
