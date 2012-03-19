@@ -2,8 +2,8 @@ class TweetFacets
   class << self
     def hash_tag_facet
       Proc.new do
-        facet 'hashtag.text.untouched' do
-          terms :'hashtag.text.untouched'
+        facet 'hashtag.text' do
+          terms :'hashtag.text'
         end
       end
     end

@@ -28,6 +28,11 @@ ESApp.Views.SearchCharts = Support.CompositeView.extend({
     return new Highcharts.StockChart({
       chart: {
         renderTo: self.$('#created_at')[0],
+        events: {
+          redraw: function() {
+            console.debug(this.xAxis[0].getExtremes());
+          }
+        }
       },
       credits: {
         enabled: false
@@ -50,7 +55,8 @@ ESApp.Views.SearchCharts = Support.CompositeView.extend({
 
   preprocess: function(data) {
     return _.map(data, function(entry) {
-      return [ entry.time, entry.count];
+      return [ entry.time, entry.count ];
     });
   }
+
 });
