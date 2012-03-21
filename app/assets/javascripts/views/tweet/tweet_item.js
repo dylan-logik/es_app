@@ -1,5 +1,5 @@
-ESApp.Views.TweetItem = Backbone.View.extend({
-  tagName: "tr",
+ESApp.Views.TweetItem = Support.CompositeView.extend({
+  tagName: 'li',
 
   initialize: function() {
     _.bindAll(this, "render");
@@ -16,11 +16,16 @@ ESApp.Views.TweetItem = Backbone.View.extend({
   },
 
   renderContents: function() {
-    var details = this.$('.details');
     this.$('#user').text(this.model.get('user').name);
-    this.$('#content').text(this.model.escape('text'));
-    details.attr("href", this.tweetUrl());
-    //details.data('id', this.model.id);
+    this.$('#content').text(this.model.get('text'));
+    this.$('.time-stamp').text($.format.date(this.model.get('created_at'), 'ddd MMMM dd, yyyy hh:mma')); 
+    this.$('.screen_name').text('@' + this.model.get('user').screen_name);
+    this.$('.collapse > p').text(this.model.cid);
+    var collapseId = 'collapse' + this.model.cid;
+    this.$('.hentry').attr('href', '#' + collapseId); 
+    this.$('.collapse').attr('id', collapseId).collapse({
+      toggle: false
+    });
   },
 
   tweetUrl: function() {

@@ -1,52 +1,69 @@
-ESApp.Models.Facet = Backbone.RelationalModel.extend({
+ESApp.Mixins.Facet = {
+
+  // NOTE: Override these methods in subclass
   idAttribute: 'name',
+  type: 'facet',
+  boolType: 'or',
+  isSelectedItem: function(item) {},
+  itemFilter: function() {},
 
-  initialize: function(attributes) {
-    this.on('facet-select', function(term, selected) {
-      this.onTermSelect(term, selected);
-    });
-
-    _.each(attributes.terms, function(term) {
-      if (typeof term.selected == 'undefined') {
-        term.selected = false;
+  initialize: function(attrs) {
+    this.on('facetSelect', this.onSelect, this);
+    this.on('toggleBool', this.onToggleBool, this);
+    
+    _.each(attrs[this.type], function(item) {
+      if (typeof(item.selected) == 'undefined') {
+        item.selected = false;
       }
     });
   },
 
-  onTermSelect: function(term, selected) {
+  selectedItems: function() {
+    return _.filter(this.get(this.type), function(item) { return item.selected; });
+  },
+
+  onSelect: function(id, selected) {
     selected || (selected = false);
-    this.updateTerm(term, selected);
-    this.get('search').search();
+    this.updateItem(id, selected);
+    this.trigger('doSearch');
   },
 
-  pivot: function(attributes, options) {
-    this.set({ total: attributes.total }, { silent: true });
-    var terms = this.get('terms');
-    var selectedTerms = this.selectedTerms();
-    _.each(attributes.terms, function(term) {
-      if (_.include(selectedTerms, term.term)) term.selected = true;
-    });
-    this.set({ terms: attributes.terms });
-    this.trigger('reset');
+  onToggleBool: function(bool) {
+    this.boolType = bool;
+    this.trigger('change:boolType');
   },
 
-  selectedTerms: function() {
-    var st = [];
-    _.each(this.get('terms'), function(term) { if (term.selected) st.push(term.term); });
-    return st;
+  updateItem: function(id, selected) {
+    this.get(this.type)[id].selected = selected;
+  },
+
+  pivot: function(attrs, options) {
+    var self = this;
+    _.chain(attrs[this.type])
+      .filter(function(item) { return self.isSelectedItem(item); })
+      .each(function(item) { item.selected = true })
+      .value();
+    this.set(attrs);
+  },
+
+  locked: function() {
+    return false;
   },
 
   filters: function() {
-    var field = this.get('name');
-    return {
-      "or": _.map(this.selectedTerms(), function(term) {
-        var t = {}; t[field] = term;
-        return { "term": t };
-      })
-    };
+    var self = this;
+    var filter = {};
+    filter[this.boolType] = _.map(this.selectedItems(), function(item) {
+      return self.itemFilter(item);
+    });
+    return filter;
   },
 
-  updateTerm: function(term, selected) {
-    _.find(this.get('terms'), function(t) { return t.term == term; }).selected = selected;
+  prettyName: function() {
+    return _.map(this.escape('name').split(/[\._]/),
+      function(part) {
+        return part.charAt(0).toUpperCase() + part.slice(1);
+      })
+    .join(' ');
   }
-});
+};

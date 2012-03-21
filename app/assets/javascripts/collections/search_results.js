@@ -4,13 +4,17 @@ ESApp.Collections.SearchResults = Backbone.Collection.extend({
   url: 'tweets/search',
 
   initialize: function(options) {
+    this.page    = options.page;
+    this.total   = options.total;
+    this.perPage = options.perPage;
+
     _.bindAll(this, 'parse', 'pageInfo', 'nextPage', 'previousPage');
   },
 
   pageInfo: function() {
-    var page = this.search.get('page');
-    var total = this.search.get('total');
-    var perPage = this.search.get('perPage');
+    var page = this.page;
+    var total = this.total;
+    var perPage = this.perPage;
 
     var info = {
       page: page,
@@ -45,12 +49,12 @@ ESApp.Collections.SearchResults = Backbone.Collection.extend({
   },
 
   nextPage: function() {
-    this.search.set('page', this.search.get('page') + 1);
-    this.fetch({ add: true, data: this.search.request() });
+    this.page = this.page + 1;
+    this.trigger('doSearch');
   },
 
   previousPage: function() {
-    this.search.set('page', this.search.get('page') - 1);
-    this.fetch({ add: true, data: this.search.request(), silent: true });
+    this.page = this.page - 1;
+    this.trigger('doSearch');
   }
 });

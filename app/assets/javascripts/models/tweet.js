@@ -1,1 +1,1 @@
-ESApp.Models.Tweet = Backbone.RelationalModel.extend({});
+ESApp.Models.Tweet = Backbone.Model.extend({});

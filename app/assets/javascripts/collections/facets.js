@@ -1,11 +1,23 @@
 ESApp.Collections.Facets = Backbone.Collection.extend({
-  model: ESApp.Models.Facet,
+  
+  model: function(attr, options) {
+    switch (attr['_type']) {
+      case 'terms':
+        return new ESApp.Models.TermsFacet(attr, options);
+      case 'range':
+        return new ESApp.Models.RangeFacet(attr, options);
+      default:
+        return new ESApp.Models.TermsFacet(attr, options);
+    }
+  },
 
   pivot: function(facets, options) {
     options || (options = {});
     options['silent'] = true;
     _.each(this.models, function(facet, i) {
-      facet.pivot(facets[i], options);
+      if (!facet.locked()) {
+        facet.pivot(facets[i], options);
+      }
     });
   },
 
@@ -13,7 +25,7 @@ ESApp.Collections.Facets = Backbone.Collection.extend({
     var and = [];
     this.each(function(facet) {
       var f = facet.filters();
-      if (f.or.length > 0) {
+      if (f[facet.boolType].length > 0) {
         and.push(f);
       }
     });

@@ -1,7 +1,7 @@
-ESApp.Views.SearchResults = Backbone.View.extend({
+ESApp.Views.SearchResults = Support.CompositeView.extend({
 
   id: "results",
-  className: "results",
+  className: "results row",
 
   initialize: function(options) {
     _.bindAll(this, "render", "add");
@@ -10,8 +10,8 @@ ESApp.Views.SearchResults = Backbone.View.extend({
   },
 
   events: {
-    'click a.prev': 'previous',
-    'click a.next': 'next'
+    'click button.prev': 'previous',
+    'click button.next': 'next'
   },
 
   previous: function() {
@@ -26,28 +26,28 @@ ESApp.Views.SearchResults = Backbone.View.extend({
 
   render: function() {
     this.renderTemplate();
+    this._leaveChildren();
     this.renderContents();
     return this;
   },
 
   add: function(model) {
-    var row = new ESApp.Views.TweetItem({ model: model });
-    this.$('tbody').append(row.render().el);
-    console.debug(this.collection.pageInfo());
-    this.$('#pagination').html(JST['layouts/pagination']({ page_info: this.collection.pageInfo() }));
+    var tweetItem = new ESApp.Views.TweetItem({ model: model });
+    this.renderChild(tweetItem);
+    this.$('#tweets-list').append(tweetItem.el);
     return this;
   },
 
   renderTemplate: function() {
     this.$el.html(JST['tweets/index']());
-    this.$el.append(JST['layouts/pagination']({ page_info: this.collection.pageInfo() }));
   },
 
   renderContents: function() {
     var self = this;
     this.collection.each(function(tweet) {
-      var row = new ESApp.Views.TweetItem({ model: tweet });
-      self.$('tbody').append(row.render().el);
+      var tweetItem = new ESApp.Views.TweetItem({ model: tweet });
+      self.renderChild(tweetItem);
+      self.$('#tweets-list').append(tweetItem.el);
     });
   }
 });

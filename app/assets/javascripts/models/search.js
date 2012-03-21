@@ -1,31 +1,24 @@
-ESApp.Models.Search = Backbone.RelationalModel.extend({
+ESApp.Models.Search = Backbone.Model.extend({
 
   urlRoot: '/tweets/search',
 
-  relations: [{
-    type: Backbone.HasMany,
-    key: 'facets',
-    relatedModel: 'ESApp.Models.Facet',
-    collectionType: 'ESApp.Collections.Facets',
-    reverseRelation: {
-      key: 'search',
-    }
-  },
-  {
-    type: Backbone.HasMany,
-    key: 'results',
-    relatedModel: 'ESApp.Models.Tweet',
-    collectionType: 'ESApp.Collections.SearchResults',
-    reverseRelation: {
-      key: 'search',
-    }
-  }],
-
   initialize: function(options) {
     options || (options = {});
+    var pageInfo = {
+      page: (options.page || 1),
+      total: (options.total || 0),
+      perPage: (options.perPage || 20),
+    };
 
-    this.filters  = [];
-    this.set('query', "");
+    this.results = new ESApp.Collections.SearchResults(pageInfo);
+    this.facets = new ESApp.Collections.Facets();
+    this.facets.reset(options.facets);
+    this.results.reset(options.results);
+    this.set('query', (options.query || ""));
+    this.set('took', (options.took || 0));
+
+    this.facets.on('doSearch', this.search, this);
+    this.results.on('doSearch', this.nextPage, this);
   },
 
   sync: function(method, model, options) {
@@ -41,24 +34,26 @@ ESApp.Models.Search = Backbone.RelationalModel.extend({
   },
 
   request: function() {
-    var request = { q: this.get('query'), page: this.get('page') }
-    var filters = this.get('facets').filters();
+    var request = { q: this.get('query'), page: this.results.page }
+    var filters = this.facets.filters();
     if (filters.and.length > 0) request['filter'] = JSON.stringify(filters)
     return request;
   },
 
   parse: function(resp) {
-    this.set( 'page', (resp.page || 1) );
-    this.set( 'total', (resp.total || 0) );
-    this.set( 'perPage', (resp.perPage || 10) ); 
-    this.set( 'took', (resp.took || 0) );
-
-    this.get('facets').pivot(resp.facets);   
-    this.get('results').reset(resp.results);
+    this.set('took', (resp.took || 0));
+    this.set('total', (resp.total || 0));
+    // NOTE: need to reset facets if coming from a new search. only want to pivot if coming from a selected facet item
+    this.facets.pivot(resp.facets);
+    this.results.reset(resp.results);
   },
 
   search: function(options) {
-    this.set('page', 1);
+    this.results.page = 1;
     this.fetch(options);
+  },
+
+  nextPage: function(options) {
+    this.results.fetch({ add: true, data: this.request() });
   }
 });

@@ -3,8 +3,10 @@
 //
 //= require underscore
 //= require backbone
+//= require backbone-support
 //
-//= require backbone-relational.js
+//= require twitter/bootstrap
+//= require jquery.dateFormat-1.0
 //
 //= require es_app
 //
