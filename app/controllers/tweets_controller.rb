@@ -6,12 +6,13 @@ class TweetsController < ApplicationController
 
     # NOTE: Use RABL
     @tweets   = response.results
-    @facets   = response.facets.map { |k,v| v.update({ name: k }) }
+    @facets   = response.facets.select { |k,v| v['_type'] != 'statistical' }.map { |k,v| v.update({ name: k }) }
+    @stats    = response.facets.select { |k,v| v['_type'] == 'statistical' }.map { |k,v| v.update({ name: k }) }
     @page     = params[:page] ? params[:page].to_i : 1
     @perPage  = 20
     @total    = response.total
 
-    @response = { results: @tweets, facets: @facets, page: @page, perPage: @perPage, total: @total, took: response.time }
+    @response = { results: @tweets, facets: @facets, stats: @stats, page: @page, perPage: @perPage, total: @total, took: response.time }
 
     respond_with(@response)
   end

@@ -10,10 +10,11 @@ ESApp.Models.Search = Backbone.Model.extend({
       perPage: (options.perPage || 20),
     };
 
-    this.results = new ESApp.Collections.SearchResults(pageInfo);
-    this.facets = new ESApp.Collections.Facets();
-    this.facets.reset(options.facets);
+    this.results  = new ESApp.Collections.SearchResults(pageInfo);
+    this.facets   = new ESApp.Collections.Facets(options.facets);
+    this.stats    = new ESApp.Collections.Facets(options.stats);
     this.results.reset(options.results);
+
     this.set('query', (options.query || ""));
     this.set('took', (options.took || 0));
 

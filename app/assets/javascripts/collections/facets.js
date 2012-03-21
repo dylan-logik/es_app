@@ -6,6 +6,8 @@ ESApp.Collections.Facets = Backbone.Collection.extend({
         return new ESApp.Models.TermsFacet(attr, options);
       case 'range':
         return new ESApp.Models.RangeFacet(attr, options);
+      case 'statistical':
+        return new ESApp.Models.StatisticalFacet(attr, options);
       default:
         return new ESApp.Models.TermsFacet(attr, options);
     }
@@ -19,6 +21,7 @@ ESApp.Collections.Facets = Backbone.Collection.extend({
         facet.pivot(facets[i], options);
       }
     });
+    this.trigger('pivot');
   },
 
   filters: function() {

@@ -2,8 +2,8 @@ class TweetFacets
   class << self
     def hash_tag_facet
       Proc.new do
-        facet 'hashtag.text.untouched' do
-          terms :'hashtag.text.untouched'
+        facet 'hashtag.text' do
+          terms :'hashtag.text'
         end
       end
     end
@@ -39,6 +39,22 @@ class TweetFacets
       Proc.new do
         facet 'mention.screen_name' do
           terms :'mention.screen_name'
+        end
+      end
+    end
+
+    def date_range_facet
+      Proc.new do
+        facet 'created_at' do
+          date :'created_at', { interval: 'minute' }
+        end
+      end
+    end
+
+    def retweet_stats_facet
+      Proc.new do
+        facet 'retweet_count_stats' do
+          statistical :'retweet_count'
         end
       end
     end

@@ -8,18 +8,16 @@ ESApp.Views.FacetsIndex = Support.CompositeView.extend({
   },
 
   render: function() {
-    this.$el.html(JST['facets/index']());
-    this.renderContents();
-    return this;
-  },
-
-  renderContents: function() {
     var self = this;
     this.collection.each(function(facet) {
-      var facetItem = new ESApp.Views[self.facetToString(facet)]({ model: facet });
-      self.renderChild(facetItem);
-      self.$('.row').append(facetItem.el);
+      var facetName = self.facetToString(facet);
+      if (_.has(ESApp.Views, facetName)) {
+        var facetItem = new ESApp.Views[facetName]({ model: facet });
+        self.renderChild(facetItem);
+        self.$el.append(facetItem.el);
+      }
     });
+    return this;
   },
 
   facetToString: function(facet) {
