@@ -21,6 +21,6 @@ ESApp.Views.TermsFacet = Support.CompositeView.extend(
   },
 
   termId: function(term) {
-    return this.model.get('name').replace('.', '-') + '-' + term.term;
+    return this.model.get('name').replace(/[\._ ]/g, '-') + '-' + term.term.replace(/ /g, '-');
   }
 }));

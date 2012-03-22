@@ -11,13 +11,21 @@ ESApp.Views.FacetsIndex = Support.CompositeView.extend({
     var self = this;
     this.collection.each(function(facet) {
       var facetName = self.facetToString(facet);
-      if (_.has(ESApp.Views, facetName)) {
+      if (_.has(ESApp.Views, facetName) && facet.get('_type') != 'date_histogram') {
         var facetItem = new ESApp.Views[facetName]({ model: facet });
         self.renderChild(facetItem);
         self.$el.append(facetItem.el);
       }
     });
+    this.renderDateFacet(); 
     return this;
+  },
+
+  renderDateFacet: function() {
+    var dateFacet = this.collection.find(function(facet) { return facet.get('_type') == 'date_histogram'; });
+    var dateFacetView = new ESApp.Views.DateFacetView({ model: dateFacet });
+    this.renderChild(dateFacetView);
+    this.$el.append(dateFacetView.el);
   },
 
   facetToString: function(facet) {
