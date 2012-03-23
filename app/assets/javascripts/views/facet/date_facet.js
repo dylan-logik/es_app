@@ -4,6 +4,7 @@ ESApp.Views.DateFacetView = Support.CompositeView.extend({
 
   initialize: function() {
     _.bindAll(this, 'render', 'onRedraw');
+    this.model.bind('change', this.render);
   },
 
   template: function(facet) {
@@ -11,6 +12,7 @@ ESApp.Views.DateFacetView = Support.CompositeView.extend({
   },
 
   render: function() {
+    console.debug('render');
     this.renderChart();
     this.$el.prepend("<div class='facet-name'><strong>" + this.model.prettyName() + "</stron></div>");
     return this;
@@ -40,7 +42,7 @@ ESApp.Views.DateFacetView = Support.CompositeView.extend({
       },
       series: [{
         name: facet.prettyName(),
-        data: self.preprocess(facet.get('entries')),
+        data: self.model.chartData(),
         tooltip: {
           valueDecimals: 0
         }
@@ -50,13 +52,6 @@ ESApp.Views.DateFacetView = Support.CompositeView.extend({
 
   onRedraw: function(chart) {
     var extremes = chart.xAxis[0].getExtremes();
-    this.model.set({ min: extremes.min, max: extremes.max });
-    //this.model.trigger('doSearch');
-  },
-
-  preprocess: function(data) {
-    return _.map(data, function(entry) {
-      return [ entry.time, entry.count ];
-    });
+    this.model.onSelect(extremes);
   }
 });

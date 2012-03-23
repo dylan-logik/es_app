@@ -17,10 +17,7 @@ ESApp.Views.SearchCharts = Support.CompositeView.extend({
   renderChart: function() {
     var self = this;
     this.collection.each(function(facet) {
-      if (facet.get('_type') == 'date_histogram') {
-        self.$el.append("<div class='span12' id='" + facet.get('name').replace(/\./g, '-') + "'></div>");
-        self.buildChart(facet);
-      } else if (facet.get('_type') == 'terms') {
+      if (facet.get('_type') == 'terms') {
         self.$el.append("<div class='span6' id='" + facet.get('name').replace(/\./g, '-') + "'></div>");
         self.buildPie(facet);
       }
@@ -56,54 +53,8 @@ ESApp.Views.SearchCharts = Support.CompositeView.extend({
       series: [{
         type: 'pie',
         name: facet.get('name'),
-        data: this.preprocessTerms(facet.get('terms'), facet.get('total'))
+        data: facet.chartData()
       }]
-    });
-  },
- 
-  buildChart: function(facet) {
-    var self = this;
-    return new Highcharts.StockChart({
-      chart: {
-        renderTo: self.$('#'+facet.get('name').replace('.', '-'))[0],
-        events: {
-          redraw: function() {
-            console.debug(this.xAxis[0].getExtremes());
-          }
-        }
-      },
-      credits: {
-        enabled: false
-      },
-      yAxis: {
-        min: 0
-      }, 
-      title: {
-        text: 'Tweets per minute'
-      },
-      series: [{
-        name: 'Tweets per minute',
-        data: self.preprocess(facet.get('entries')),
-        tooltip: {
-          valueDecimals: 0
-        }
-      }]
-    });
-  },
-
-  preprocess: function(data) {
-    return _.map(data, function(entry) {
-      return [ entry.time, entry.count ];
-    });
-  },
-
-  preprocessTerms: function(terms) {
-    var total = _.reduce(_.pluck(terms, 'count'), 
-        function(memo, count) {
-          return memo + count;
-        }, 0);
-    return d = _.map(terms, function(term) {
-      return [term.term, term.count / total];
     });
   }
 

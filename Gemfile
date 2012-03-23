@@ -6,12 +6,12 @@ gem 'tire', '= 0.4.0.pre'
 gem 'therubyracer'
 gem 'ejs'
 gem 'yajl-ruby'
-gem 'backbone-support'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
+  gem 'backbone-support'
   gem 'twitter-bootstrap-rails'
 end
 
