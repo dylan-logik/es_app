@@ -5,11 +5,11 @@ ESApp.Models.DateFacet = Backbone.Model.extend({
   boolType: 'or',
 
   initialize: function(attr) {
-    this.set({ min: attr.entries[0].time, max: attr.entries[attr.entries.length - 1].time });
+    this.set({ global_min: attr.entries[0].time, min: attr.entries[0].time, global_max: attr.entries[attr.entries.length - 1].time, max: attr.entries[attr.entries.length - 1].time });
   },
 
   locked: function() {
-    return false;
+    return true; 
   },
 
   pivot: function(attr, options) {
@@ -17,19 +17,20 @@ ESApp.Models.DateFacet = Backbone.Model.extend({
   },
 
   onSelect: function(extremes) {
-    console.debug('onSelect');
-    console.debug("from: " + extremes.min + " max: " + extremes.max);
-    console.debug("from: " + this.get('min') + " max: " + this.get('max'));
-    this.set({ min: extremes.min, max: extremes.max }, { silent: true });
-    this.trigger('doSearch');
+    if (extremes.min != this.get('min') || extremes.max != this.get('max')) {
+      this.set({ min: extremes.min, max: extremes.max }, { silent: true });
+      this.trigger('doSearch');
+    }
   },
 
   filters: function() {
-    console.debug('filters');
-    console.debug("from: " + this.get('min') + " max: " + this.get('max'));
-    var field = this.get('name');
-    var t = {}; t[field] = { "from": this.get('min').toFixed(0), "to": this.get('max').toFixed(0) };
-    return { "or": [{ "numeric_range": t }] }
+    if (this.get('min') != this.get('global_min') || this.get('max') != this.get('global_max') ) {
+      var field = this.get('name');
+      var t = {}; t[field] = { "from": this.get('min').toFixed(0), "to": this.get('max').toFixed(0) };
+      return { "or": [{ "numeric_range": t }] };
+    } else {
+      return { "or": [] };
+    }
   },
 
   prettyName: function() {

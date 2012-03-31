@@ -12,7 +12,6 @@ ESApp.Views.DateFacetView = Support.CompositeView.extend({
   },
 
   render: function() {
-    console.debug('render');
     this.renderChart();
     this.$el.prepend("<div class='facet-name'><strong>" + this.model.prettyName() + "</stron></div>");
     return this;
