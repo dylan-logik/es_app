@@ -1,27 +1,26 @@
 source 'http://rubygems.org'
 
-gem 'rails', '~> 3.2'
+gem 'rails'
 
-gem 'tire', '= 0.4.0.pre'
+gem 'tire'
 gem 'therubyracer'
 gem 'ejs'
-gem 'yajl-ruby'
+gem 'yajl-ruby', :require => "yajl"
+gem 'rabl'
 
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'uglifier', '>= 1.0.3'
+  gem 'sass-rails'
+  gem 'coffee-rails'
+  gem 'uglifier'
   gem 'backbone-support'
   gem 'twitter-bootstrap-rails'
 end
 
 gem 'jquery-rails'
 
-#gem 'ruby-debug19', :require => 'ruby-debug'
-
 group :test do
-  gem 'turn', '0.8.2', :require => false
+  gem 'turn'
   gem 'rspec-rails'
-  gem 'fabrication', '~> 1.1'
-  gem 'ffaker', '~> 1.12'
+  gem 'fabrication'
+  gem 'ffaker'
 end

@@ -1,39 +1,21 @@
 class TweetsController < ApplicationController
   respond_to :html, :json
 
-  def index
-    response  = Tweet.all(params)
-
-    # NOTE: Use RABL
-    @tweets   = response.results
-    @facets   = response.facets.select { |k,v| v['_type'] != 'statistical' }.map { |k,v| v.update({ name: k }) }
-    @stats    = response.facets.select { |k,v| v['_type'] == 'statistical' }.map { |k,v| v.update({ name: k }) }
-    @page     = params[:page] ? params[:page].to_i : 1
-    @perPage  = 20
-    @total    = response.total
-
-    @response = { results: @tweets, facets: @facets, stats: @stats, page: @page, perPage: @perPage, total: @total, took: response.time }
-
-    respond_with(@response)
-  end
-
   def search
-    response = Tweet.search(params)
-
-    # NOTE: Use RABL
-    @tweets   = response.results
-    @facets   = response.facets.map { |k,v| v.update({ name: k }) }
-    @page     = params[:page] ? params[:page].to_i : 1
-    @perPage  = 10
-    @total    = response.total
-
-    @response = { results: @tweets, facets: @facets, page: @page, perPage: @perPage, total: @total, took: response.time }
-
+    @response = Tweet.search(params)
+    @page = params[:page] && params[:page].to_i >= 1 ? params[:page].to_i : 1
+    @perPage = 10
     respond_with(@response)
   end
 
   def show
     @response = Tweet.find(params[:id])
     respond_with(@response)
+  end
+
+  def update
+    tweet = Tweet.find(params[:id])
+    tweet.update_attributes(params[:tweet])
+    respond_with(tweet)
   end
 end

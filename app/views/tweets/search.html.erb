@@ -1,5 +1,6 @@
+<div class="container"></div>
 <%= javascript_tag do %>
   $(function() {
-    ESApp.init(<%== @response.to_json %>);
+    ESApp.init(<%== render('search.json.rabl') %>);
   });
 <% end %>

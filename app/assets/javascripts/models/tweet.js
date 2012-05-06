@@ -1,1 +1,3 @@
-ESApp.Models.Tweet = Backbone.Model.extend({});
+ESApp.Models.Tweet = Backbone.Model.extend({
+  url: '/tweets/'
+});
