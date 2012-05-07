@@ -5,6 +5,7 @@ var ESApp = {
   Views: {},
   Routers: {},
   init: function(response) {
+    console.debug(response);
     this.search = new ESApp.Models.Search(response);
     new ESApp.Routers.Tweets();
     if (!Backbone.history.start()) {

@@ -35,13 +35,14 @@ ESApp.Models.Search = Backbone.Model.extend({
   },
 
   request: function() {
-    var request = { q: this.get('query'), page: this.results.page }
+    var request = { query: { query: this.get('query'), page: this.results.page } }
     var filters = this.facets.filters();
-    if (filters.and.length > 0) request['filter'] = JSON.stringify(filters)
+    if (filters.length > 0) request.query['filter'] = JSON.stringify(filters)
     return request;
   },
 
   parse: function(resp) {
+    console.debug(resp)
     this.set('took', (resp.took || 0));
     this.set('total', (resp.total || 0));
     // NOTE: need to reset facets if coming from a new search. only want to pivot if coming from a selected facet item

@@ -2,7 +2,7 @@ class TweetsController < ApplicationController
   respond_to :html, :json
 
   def search
-    @response = Tweet.search(params)
+    @response = Tweet.search(params[:query])
     @page = params[:page] && params[:page].to_i >= 1 ? params[:page].to_i : 1
     @perPage = 10
     respond_with(@response)
