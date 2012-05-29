@@ -1,4 +1,13 @@
 module TweetFacets
+
+  def tag_facet
+    Proc.new do
+      facet 'tags' do
+        terms 'tags'
+      end
+    end
+  end
+
   def hash_tag_facet
     Proc.new do
       facet 'hashtag.text' do

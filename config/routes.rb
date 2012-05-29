@@ -1,8 +1,8 @@
 EsApp::Application.routes.draw do
-  root :to => 'tweets#search'
-  match 'tweets/search' => 'tweets#search', :via => :get
-  resources :tweets do
-    member do
+  root :to => 'searches#search'
+  resources :tweets, :only => [:update, :show, :destroy, :create]
+  resources :searches do
+    collection do
       get 'search'
     end
   end

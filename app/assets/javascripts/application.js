@@ -9,7 +9,6 @@
 //= require jquery.dateFormat-1.0
 //= require highcharts
 //= require highstock
-//
 //= require es_app
 //
 //= require_tree ./models

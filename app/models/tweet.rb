@@ -1,17 +1,30 @@
 class Tweet
   extend TweetFacets
-  include Tire::Model::Search
   include Tire::Model::Persistence
+
+  property :text
+  property :created_at, :type => 'date', :default => -> { Time.now }
+  property :source
+  property :truncated, :default => false
+  property :mention
+  property :retweet_count, :default => 0
+  property :hashtag
+  property :link
+  property :user
+  property :tags, :default => []
+  property :in_reply
 
   def self.per_page
     10
   end
 
   def self.search(options)
+    #old_wrapper = Tire::Configuration.wrapper
+    #Tire::Configuration.wrapper self
     options ||= {}
     options[:per_page] ||= self.per_page
+    options[:query] = "*:*" if options[:query].nil? || options[:query].empty?
 
-    query = options[:query].nil? || options[:query].empty? ? "*:*" : options[:query]
     sort  = Array( options[:order] || options[:sort] )
 
     tire.search do |search|
@@ -24,33 +37,32 @@ class Tweet
         end
       end unless sort.empty?
 
-      search.query(&build_query(query, options))
-      self.facets { |f| search.instance_eval(&f) }
+      search.query(&__build_query(options))
+      facets { |f| search.instance_eval(&f) }
 
       search.highlight :text
 
       search.fields Array( options[:fields] ) if options[:fields]
     end
-  end
-
-  def to_indexed_json
+  #ensure
+    #
   end
 
   protected
 
-  def self.build_query(query, options) 
+  def self.__build_query(options)
     Proc.new do
-      if options['filter']
-        filters = Yajl::Parser.parse(options['filter'])
+      if options[:filter]
+        filters = Yajl::Parser.parse(options[:filter])
         filtered do |filtered|
           filters.each do |f|
-            f = f.flatten
-            filtered.filter f[0], f[1]
+            key, value = f.flatten
+            filtered.filter key, value
           end
-          filtered.query { string query }
+          filtered.query { string options[:query] }
         end
       else
-        string query
+        string options['query']
       end
     end
   end

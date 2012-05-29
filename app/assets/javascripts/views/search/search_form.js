@@ -29,7 +29,7 @@ ESApp.Views.SearchForm = Support.CompositeView.extend({
   },
 
   search: function() {
-    this.model.search();
+    this.model.execute();
     return false;
   }
 });

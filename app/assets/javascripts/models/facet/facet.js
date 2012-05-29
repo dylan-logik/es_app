@@ -23,6 +23,7 @@ ESApp.Mixins.Facet = {
   },
 
   onSelect: function(id, selected) {
+    console.debug('select');
     selected || (selected = false);
     this.updateItem(id, selected);
     this.trigger('doSearch');

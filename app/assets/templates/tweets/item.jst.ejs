@@ -1,4 +1,4 @@
-<div class='accordion-group'>
+<div class='accordion-group span8'>
   <article class='hentry' data-toggle='collapse' href=''>
     <header>
       <h2 id='user' class='entry-author'></h2>
@@ -8,9 +8,17 @@
     <div class='entry-info'>
       <span class='time-stamp'></span>
     </div>
-    <div id='' class='collapse'>
-      <p></p>
-    </div>
-    <button type='button' data-toggle='modal' class='btn btn-primary' href='#tagModel'>Tag</button>
+    <ul id='tagList' class='tag-list unstyled'></ul>
   </article>
+  <div id='<%= model.cid %>' class='collapse accordion-body'>
+    <div class='accordion-inner'>
+      <p></p>
+      <div class='row span8'>
+        <form class='form-inline'> 
+          <input id='addTag' type='text' class='input-medium'>
+          <button id='saveTag' class='btn btn-primary' type='button' data-loading-text="Saving..." >Save</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

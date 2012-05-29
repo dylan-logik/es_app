@@ -12,6 +12,8 @@ group :assets do
   gem 'sass-rails'
   gem 'coffee-rails'
   gem 'uglifier'
+  gem 'backbone-rails'
+  gem 'underscore-rails'
   gem 'backbone-support'
   gem 'twitter-bootstrap-rails'
 end

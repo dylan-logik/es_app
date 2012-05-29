@@ -1,6 +1,6 @@
 ESApp.Models.Search = Backbone.Model.extend({
 
-  urlRoot: '/tweets/search',
+  urlRoot: '/searches',
 
   initialize: function(options) {
     options || (options = {});
@@ -18,30 +18,19 @@ ESApp.Models.Search = Backbone.Model.extend({
     this.set('query', (options.query || ""));
     this.set('took', (options.took || 0));
 
-    this.facets.on('doSearch', this.search, this);
+    this.facets.on('doSearch', this.execute, this);
     this.results.on('doSearch', this.nextPage, this);
   },
 
-  sync: function(method, model, options) {
-    var params = {
-      url       : this.url(),
-      dataType  : "json",
-      type      : "GET",
-      data      : this.request(),
-      success : options.success,
-      error   : options.error
-    };
-    $.ajax(params);
-  },
-
   request: function() {
-    var request = { query: { query: this.get('query'), page: this.results.page } }
+    var request = { query: this.get('query'), page: this.results.page }
     var filters = this.facets.filters();
-    if (filters.length > 0) request.query['filter'] = JSON.stringify(filters)
+    if (filters.length > 0) request['filter'] = JSON.stringify(filters)
     return request;
   },
 
   parse: function(resp) {
+    console.debug(this);
     console.debug(resp)
     this.set('took', (resp.took || 0));
     this.set('total', (resp.total || 0));
@@ -50,9 +39,28 @@ ESApp.Models.Search = Backbone.Model.extend({
     this.results.reset(resp.results);
   },
 
-  search: function(options) {
+  execute: function() {
+    console.debug('execute');
+    var self = this;
+    var request = self.request();
     this.results.page = 1;
-    this.fetch(options);
+    var params = {
+      url       : 'searches/search', 
+      dataType  : "json",
+      type      : "GET",
+      data      : self.request(),
+    };
+    $.ajax(params)
+      .success(function(data) {
+        self.set('took', (data.took || 0));
+        self.set('total', (data.total || 0));
+        self.facets.pivot(data.facets);
+        self.results.reset(data.results);
+      });
+  },
+
+  error: function(data) {
+    console.debug("Error: " + data);
   },
 
   nextPage: function(options) {

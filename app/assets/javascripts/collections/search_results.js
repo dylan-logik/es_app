@@ -1,7 +1,7 @@
 ESApp.Collections.SearchResults = Backbone.Collection.extend({
 
   model: ESApp.Models.Tweet,
-  url: 'tweets/search',
+  url: '/searches/search',
 
   initialize: function(options) {
     this.page    = options.page;
