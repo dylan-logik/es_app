@@ -1,2 +1,0 @@
-object @tweet
-attributes :text

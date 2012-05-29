@@ -19,8 +19,6 @@ class Tweet
   end
 
   def self.search(options)
-    #old_wrapper = Tire::Configuration.wrapper
-    #Tire::Configuration.wrapper self
     options ||= {}
     options[:per_page] ||= self.per_page
     options[:query] = "*:*" if options[:query].nil? || options[:query].empty?
@@ -44,8 +42,10 @@ class Tweet
 
       search.fields Array( options[:fields] ) if options[:fields]
     end
-  #ensure
-    #
+  end
+
+  def to_json
+    self.attributes
   end
 
   protected

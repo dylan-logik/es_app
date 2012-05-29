@@ -2,8 +2,8 @@ class TweetsController < ApplicationController
   respond_to :html, :json
 
   def show
-    @response = Tweet.find(params[:id])
-    respond_with(@response)
+    @tweet = Tweet.find(params[:id])
+    respond_with(@tweet)
   end
 
   def update
