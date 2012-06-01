@@ -17,7 +17,7 @@ ESApp.Views.FacetsIndex = Support.CompositeView.extend({
         self.$el.append(facetItem.el);
       }
     });
-    this.renderDateFacet(); 
+    //this.renderDateFacet(); 
     return this;
   },
 

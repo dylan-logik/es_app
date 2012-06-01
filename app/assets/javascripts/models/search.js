@@ -15,8 +15,8 @@ ESApp.Models.Search = Backbone.Model.extend({
     this.stats    = new ESApp.Collections.Facets(options.stats);
     this.results.reset(options.results);
 
-    this.set('query', (options.query || ""));
-    this.set('took', (options.took || 0));
+    this.set('query', (options.query || ""), { silent: true });
+    this.set('took', (options.took || 0), { silent: true });
 
     this.facets.on('doSearch', this.execute, this);
     this.results.on('doSearch', this.nextPage, this);
@@ -27,16 +27,6 @@ ESApp.Models.Search = Backbone.Model.extend({
     var filters = this.facets.filters();
     if (filters.length > 0) request['filter'] = JSON.stringify(filters)
     return request;
-  },
-
-  parse: function(resp) {
-    console.debug(this);
-    console.debug(resp)
-    this.set('took', (resp.took || 0));
-    this.set('total', (resp.total || 0));
-    // NOTE: need to reset facets if coming from a new search. only want to pivot if coming from a selected facet item
-    this.facets.pivot(resp.facets);
-    this.results.reset(resp.results);
   },
 
   execute: function() {
@@ -52,15 +42,11 @@ ESApp.Models.Search = Backbone.Model.extend({
     };
     $.ajax(params)
       .success(function(data) {
-        self.set('took', (data.took || 0));
+        self.set('took', (data.took || 0), { silent: true });
         self.set('total', (data.total || 0));
         self.facets.pivot(data.facets);
         self.results.reset(data.results);
       });
-  },
-
-  error: function(data) {
-    console.debug("Error: " + data);
   },
 
   nextPage: function(options) {

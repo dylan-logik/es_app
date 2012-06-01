@@ -1,5 +1,5 @@
-<div class='accordion-group span8'>
-  <article class='hentry' data-toggle='collapse' href=''>
+<div class='span8'>
+  <article class='accordion-group hentry'>
     <header>
       <h2 id='user' class='entry-author'></h2>
       <div class='screen_name'></div>
@@ -9,10 +9,10 @@
       <span class='time-stamp'></span>
     </div>
     <ul id='tagList' class='tag-list unstyled'></ul>
-  </article>
-  <div id='<%= model.cid %>' class='collapse accordion-body'>
-    <div class='accordion-inner'>
-      <p></p>
+    <button class='btn btn-info accordion-toggle' data-toggle='collapse' data-target='<%='#collapse-' + model.cid %>'><i class='icon-plus icon-white'></i></button>
+    <button id='tag-btn' class='btn btn-info'><i class='icon-tags icon-white'></i></button>
+    <div class='accodion-body collapse'>
+      <p>Model Data</p>
       <div class='row span8'>
         <form class='form-inline'> 
           <input id='addTag' type='text' class='input-medium'>
@@ -20,5 +20,5 @@
         </form>
       </div>
     </div>
-  </div>
+  </article>
 </div>

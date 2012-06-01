@@ -4,14 +4,17 @@ ESApp.Views.TweetItem = Support.CompositeView.extend({
 
   initialize: function() {
     _.bindAll(this, "render");
-    this.model.on("change:tags", this.renderTags, this);
+    //this.model.on("change:tags", this.renderTags, this);
   },
   
   events: {
-    "keydown #addTag": 'addTag',
-    "submit form": 'submitTag',
-    "click .tag-close": 'removeTag',
-    "click .btn-primary": 'submitTag'
+    'click #tag-btn': 'tagModal',
+  },
+
+  tagModal: function() {
+    var editView = new ESApp.Views.TweetEdit({ model: this.model });
+    this.appendChild(editView);
+    return this;
   },
 
   render: function() {
@@ -30,12 +33,18 @@ ESApp.Views.TweetItem = Support.CompositeView.extend({
     this.$('#content').text(this.model.get('text'));
     this.$('.time-stamp').text($.format.date(this.model.get('created_at'), 'ddd MMMM dd, yyyy hh:mma')); 
     this.$('.screen_name').text('@' + this.model.get('user').screen_name);
-    this.$('.accordion-inner > p').text(this.model.cid);
-    var collapseId = 'collapse' + this.model.cid;
-    this.$('.hentry').attr('href', '#' + collapseId); 
-    this.$('.collapse').attr('id', collapseId).collapse({
-      toggle: false
-    });
+    this.$('.accordion-body > p').text(this.model.cid);
+    var self = this;
+    this.$('.collapse').attr('id', 'collapse-' + this.model.cid)
+      .on('hidden', function() {
+        self.$('.accordion-toggle > i').toggleClass('icon-plus').toggleClass('icon-minus');
+      })
+      .on('shown', function() {
+        self.$('.accordion-toggle > i').toggleClass('icon-minus').toggleClass('icon-plus');
+      })
+      .collapse({
+        toggle: false
+      });
   },
 
   renderTags: function() {
@@ -51,15 +60,6 @@ ESApp.Views.TweetItem = Support.CompositeView.extend({
     return '/#/' + this.model.get('id');
   },
 
-  addTag: function(e) {
-    if(e.keyCode == 13) {
-      console.debug("addTag");
-      var $target = $(e.target);
-      this.model.addTag($target.val());
-      $target.val('');
-    }
-  },
-  
   removeTag: function(e) {
     console.debug("removeTag");
     var $target = $(e.target);

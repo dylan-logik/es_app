@@ -10,6 +10,8 @@ ESApp.Models.Tweet = Backbone.Model.extend({
   },
 
   addTag: function(tag) {
+    console.debug("addTag");
+    console.debug(this);
     tag = tag.trim();
     var tags = this.get('tags');
     if(!_.include(tags, tag)) {
@@ -20,6 +22,8 @@ ESApp.Models.Tweet = Backbone.Model.extend({
   },
 
   removeTag: function(tag) {
+    console.debug("removeTag");
+    console.debug(this);
     var tags = _.without(this.get('tags'), tag);
     this.set('tags', tags);
     this.trigger('change:tags');
