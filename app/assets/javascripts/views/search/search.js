@@ -12,7 +12,6 @@ ESApp.Views.Search = Support.CompositeView.extend({
     var results = new ESApp.Views.SearchResults({ collection: this.model.results, facets: this.model.facets });
     var facets  = new ESApp.Views.FacetsIndex({ collection: this.model.facets });
 
-    // NOTE: Order matters for layout
     this.appendChild(form);
     this.appendChild(facets);
     this.appendChild(results);

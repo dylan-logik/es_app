@@ -4,22 +4,23 @@ ESApp.Views.SearchResults = Support.CompositeView.extend({
 
   initialize: function(options) {
     this.facets = options.facets;
-    this.collection.on("change", this.render, this);
+    this.collection.on('reset', this.render, this);
   },
 
   render: function() {
-    console.debug('Results#render');
+    console.debug('SearchResults#render');
+    this._leaveChildren();
     this.$el.html(JST['search/results']());
 
-    var resultsView = new ESApp.Views.SearchResults({ collection: this.collection });
-    var chartsView  = new ESApp.Views.SearchCharts({ collection: this.facets });
+    var resultsView = new ESApp.Views.TweetsIndex({ collection: this.collection });
+    //var chartsView  = new ESApp.Views.SearchCharts({ collection: this.facets });
 
     this.renderChild(resultsView);
-    this.renderChild(chartsView);
+    //this.renderChild(chartsView);
     
     var $tabs = this.$('.tab-content');
     $tabs.append(resultsView.el);
-    $tabs.append(chartsView.el);
+    //$tabs.append(chartsView.el);
     this.$('#tweets-tab').toggleClass('active');
     return this;
   }

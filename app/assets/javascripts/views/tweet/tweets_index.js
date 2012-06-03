@@ -1,10 +1,9 @@
-ESApp.Views.SearchResults = Support.CompositeView.extend({
+ESApp.Views.TweetsIndex = Support.CompositeView.extend({
   id: 'tweets-tab',
   className: 'tab-pane row',
 
   initialize: function(options) {
     _.bindAll(this, 'render', 'add');
-    this.collection.on('reset', this.render);
     this.collection.on('add', this.add);
   },
 
@@ -17,6 +16,7 @@ ESApp.Views.SearchResults = Support.CompositeView.extend({
   },
 
   render: function() {
+    console.debug('TweetsIndex#render');
     this._leaveChildren();
     this.renderTemplate();
     this.renderContents();

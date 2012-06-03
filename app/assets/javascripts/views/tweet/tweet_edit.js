@@ -1,7 +1,7 @@
 ESApp.Views.TweetEdit = Support.CompositeView.extend({
   initialize: function() {
-    _.bindAll(this, "render", "close");
-    this.model.on('change:tags', this.renderTags, this);
+    _.bindAll(this, "render", "close", "saveTags");
+    this.tags = (this.model.get('tags') || [])
   },
 
   events: {
@@ -19,6 +19,12 @@ ESApp.Views.TweetEdit = Support.CompositeView.extend({
 
   render: function() {
     this.$el.html(JST['tweets/edit']({ tweet: this.model }))
+    this.$('#addTag')
+      .focus(this.onFocusDefaultValue)
+      .blur(this.onBlurDefaultValue)
+      .blur();
+
+    if(this.tags.length == 0) this.$('#save-tags').attr('disabled', true);
 
     this.renderTags();
 
@@ -30,8 +36,8 @@ ESApp.Views.TweetEdit = Support.CompositeView.extend({
   renderTags: function() {
     this.$('#tagList').empty();
     // NOTE: Move to JST template
-    var tags = _.map(this.model.get('tags'), function(tag) {
-      return '<li><span class="tag">' + tag + '<a class="tag-close">x</a></span></li>';
+    var tags = _.map(this.tags, function(tag) {
+      return '<li><span class="tag label label-warning">' + tag + '<a class="tag-close">x</a></span></li>';
     });
     
     this.$('#tagList').append(tags.join(''));
@@ -39,42 +45,58 @@ ESApp.Views.TweetEdit = Support.CompositeView.extend({
 
   addTag: function(e) {
     if(e.keyCode == 13) {
-      console.debug('TweetEdit#addTag');
       var $target = $(e.target);
-      this.model.addTag($target.val());
+      var tag = $target.val();
+      this.tags.push(tag);
       $target.val('');
+      // NOTE: Move to JST template
+      this.$('#tagList').append('<li><span class="tag label label-warning">' + tag + '<a class="tag-close">x</a></span></li>');
+      if(this.tags.length > 0) this.$('#save-tags').removeAttr('disabled');
     }
   },
 
   removeTag: function(e) {
-    console.debug('TweetEdit#removeTag');
     e.preventDefault();
     var $target = $(e.target);
     var tag = $target.parent().text().substring(0, $target.parent().text().length - 1);
-    this.model.removeTag(tag); 
+    this.tags = _.reject(_.clone(this.tags), function(t) { return t == tag; });
+    if(this.tags.length == 0) this.$('#save-tags').attr('disabled', true);
+    this.renderTags();
     return false;
   },
 
   saveTags: function(e) {
     e.preventDefault();
-    console.debug('TweetEdit#saveTags');  
     $button = $(e.target);
     $button.button('loading');
-    console.debug($button);
+    this.model.set('tags', this.tags);
     var self = this;
     this.model.save({}, {
       success: function(model, response) {
         console.debug('success');
+        $button.button('reset');
         self.model.trigger('savedTags');
+        self.$('.modal').modal('hide');
       },
       error: function(model, response) {
         console.error(response);
       }
     });
 
-    $button.button('reset');
-    this.$('.modal').modal('hide');
-    this.close();
     return false;
   },
+
+  onFocusDefaultValue: function() {
+    var $this = $(this);
+    if (this.value == $this.data('default-value')) {
+      this.value = '';
+    }
+  },
+
+  onBlurDefaultValue: function() {
+    $this = $(this);
+    if(this.value == '') {
+      this.value = $this.data('default-value');
+    }
+  }
 });

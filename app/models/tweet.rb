@@ -4,6 +4,8 @@ class Tweet
 
   property :text
   property :created_at, :type => 'date', :default => -> { Time.now }
+  property :location
+  property :place
   property :source
   property :truncated, :default => false
   property :mention

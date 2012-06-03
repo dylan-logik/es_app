@@ -49,7 +49,6 @@ ESApp.Views.TweetItem = Support.CompositeView.extend({
 
   renderTags: function() {
     if (this.model.get('tags') == null) return this;
-    console.debug('TweetItem#renderTags');
     var tagList = this.$('#tagList-' + this.model.cid);
     tagList.empty();
     // NOTE: Move to JST template
@@ -63,13 +62,6 @@ ESApp.Views.TweetItem = Support.CompositeView.extend({
 
   tweetUrl: function() {
     return '/#/' + this.model.get('id');
-  },
-
-  removeTag: function(e) {
-    console.debug("removeTag");
-    var $target = $(e.target);
-    var tag = $target.parent().text().substring(0, $target.parent().text().length - 1);
-    this.model.removeTag(tag);
   },
 
 });

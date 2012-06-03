@@ -1,4 +1,4 @@
-ESApp.Collections.SearchResults = Backbone.Collection.extend({
+ESApp.Collections.Tweets = Backbone.Collection.extend({
 
   model: ESApp.Models.Tweet,
   url: '/searches/search',
@@ -9,6 +9,7 @@ ESApp.Collections.SearchResults = Backbone.Collection.extend({
     this.perPage = options.perPage;
 
     _.bindAll(this, 'parse', 'pageInfo', 'nextPage', 'previousPage');
+    //this.on('reset', function() { alert('reset'); });
   },
 
   pageInfo: function() {
@@ -50,11 +51,11 @@ ESApp.Collections.SearchResults = Backbone.Collection.extend({
 
   nextPage: function() {
     this.page = this.page + 1;
-    this.trigger('doSearch');
+    this.trigger('nextPage');
   },
 
   previousPage: function() {
     this.page = this.page - 1;
-    this.trigger('doSearch');
+    this.trigger('previousPage');
   }
 });

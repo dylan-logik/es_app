@@ -10,7 +10,7 @@ ESApp.Models.Search = Backbone.Model.extend({
       perPage: (options.perPage || 20),
     };
 
-    this.results  = new ESApp.Collections.SearchResults(pageInfo);
+    this.results  = new ESApp.Collections.Tweets(pageInfo);
     this.facets   = new ESApp.Collections.Facets(options.facets);
     this.results.reset(options.results);
 
@@ -20,7 +20,7 @@ ESApp.Models.Search = Backbone.Model.extend({
     this.on('change:query', this.execute, this);
     this.facets.on('doSearch', this.execute, this);
     // TODO: Move to collection
-    this.results.on('doSearch', this.nextPage, this);
+    this.results.on('nextPage', this.nextPage, this);
   },
 
   request: function() {
@@ -32,8 +32,8 @@ ESApp.Models.Search = Backbone.Model.extend({
 
   execute: function() {
     console.debug('execute');
-    var request = this.request();
     this.results.page = 1;
+    var request = this.request();
     var params = {
       url       : 'searches/search', 
       dataType  : "json",
