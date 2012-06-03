@@ -1,10 +1,6 @@
 ESApp.Models.Tweet = Backbone.Model.extend({
   urlRoot: '/tweets/',
 
-  defaults: {
-    'tags': []
-  },
-
   toJSON: function() {
     return { tweet: _.clone(this.attributes) }
   },
@@ -13,7 +9,7 @@ ESApp.Models.Tweet = Backbone.Model.extend({
     console.debug("addTag");
     console.debug(this);
     tag = tag.trim();
-    var tags = this.get('tags');
+    var tags = ( this.get('tags') || [] );
     if(!_.include(tags, tag)) {
       tags.push(tag.trim());
       this.set('tags', tags);

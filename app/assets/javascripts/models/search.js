@@ -12,13 +12,14 @@ ESApp.Models.Search = Backbone.Model.extend({
 
     this.results  = new ESApp.Collections.SearchResults(pageInfo);
     this.facets   = new ESApp.Collections.Facets(options.facets);
-    this.stats    = new ESApp.Collections.Facets(options.stats);
     this.results.reset(options.results);
 
     this.set('query', (options.query || ""), { silent: true });
     this.set('took', (options.took || 0), { silent: true });
 
+    this.on('change:query', this.execute, this);
     this.facets.on('doSearch', this.execute, this);
+    // TODO: Move to collection
     this.results.on('doSearch', this.nextPage, this);
   },
 
@@ -31,24 +32,25 @@ ESApp.Models.Search = Backbone.Model.extend({
 
   execute: function() {
     console.debug('execute');
-    var self = this;
-    var request = self.request();
+    var request = this.request();
     this.results.page = 1;
     var params = {
       url       : 'searches/search', 
       dataType  : "json",
       type      : "GET",
-      data      : self.request(),
+      data      : request,
     };
+    var self = this;
     $.ajax(params)
       .success(function(data) {
-        self.set('took', (data.took || 0), { silent: true });
+        self.set('took', (data.took || 0));
         self.set('total', (data.total || 0));
         self.facets.pivot(data.facets);
         self.results.reset(data.results);
       });
   },
 
+  // TODO: Move to collection
   nextPage: function(options) {
     this.results.fetch({ add: true, data: this.request() });
   }

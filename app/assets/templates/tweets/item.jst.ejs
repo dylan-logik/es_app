@@ -8,17 +8,11 @@
     <div class='entry-info'>
       <span class='time-stamp'></span>
     </div>
-    <ul id='tagList' class='tag-list unstyled'></ul>
+    <ul id='tagList-<%= model.cid %>' class='tag-list unstyled'></ul>
     <button class='btn btn-info accordion-toggle' data-toggle='collapse' data-target='<%='#collapse-' + model.cid %>'><i class='icon-plus icon-white'></i></button>
     <button id='tag-btn' class='btn btn-info'><i class='icon-tags icon-white'></i></button>
     <div class='accodion-body collapse'>
       <p>Model Data</p>
-      <div class='row span8'>
-        <form class='form-inline'> 
-          <input id='addTag' type='text' class='input-medium'>
-          <button id='saveTag' class='btn btn-primary' type='button' data-loading-text="Saving..." >Save</button>
-        </form>
-      </div>
     </div>
   </article>
 </div>

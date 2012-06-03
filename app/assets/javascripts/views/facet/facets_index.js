@@ -5,16 +5,18 @@ ESApp.Views.FacetsIndex = Support.CompositeView.extend({
   
   initialize: function() {
     _.bindAll(this, 'render');
+    this.collection.on('pivot', this.render);
   },
 
   render: function() {
+    console.debug('FacetsIndex#render');
+    this._leaveChildren();
     var self = this;
     this.collection.each(function(facet) {
       var facetName = self.facetToString(facet);
       if (_.has(ESApp.Views, facetName) && facet.get('_type') != 'date_histogram') {
         var facetItem = new ESApp.Views[facetName]({ model: facet });
-        self.renderChild(facetItem);
-        self.$el.append(facetItem.el);
+        self.appendChild(facetItem);
       }
     });
     //this.renderDateFacet(); 

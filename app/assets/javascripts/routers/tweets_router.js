@@ -10,7 +10,7 @@ ESApp.Routers.Tweets = Support.SwappingRouter.extend({
   },
 
   index: function() {
-    var view = new ESApp.Views.SearchForm({ model: ESApp.search });
+    var view = new ESApp.Views.Search({ model: ESApp.search });
     ESApp.mainView = view;
     this.swap(view);
   },

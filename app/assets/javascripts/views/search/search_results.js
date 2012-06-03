@@ -1,12 +1,14 @@
-ESApp.Views.Results = Support.CompositeView.extend({
+ESApp.Views.SearchResults = Support.CompositeView.extend({
   id: 'results',
   className: 'results row',
 
   initialize: function(options) {
     this.facets = options.facets;
+    this.collection.on("change", this.render, this);
   },
 
   render: function() {
+    console.debug('Results#render');
     this.$el.html(JST['search/results']());
 
     var resultsView = new ESApp.Views.SearchResults({ collection: this.collection });

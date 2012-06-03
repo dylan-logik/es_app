@@ -4,7 +4,7 @@ ESApp.Views.TweetItem = Support.CompositeView.extend({
 
   initialize: function() {
     _.bindAll(this, "render");
-    //this.model.on("change:tags", this.renderTags, this);
+    this.model.on("savedTags", this.renderTags, this);
   },
   
   events: {
@@ -48,12 +48,17 @@ ESApp.Views.TweetItem = Support.CompositeView.extend({
   },
 
   renderTags: function() {
-    this.$('#tagList').empty();
+    if (this.model.get('tags') == null) return this;
+    console.debug('TweetItem#renderTags');
+    var tagList = this.$('#tagList-' + this.model.cid);
+    tagList.empty();
+    // NOTE: Move to JST template
     var tags = _.map(this.model.get('tags'), function(tag) {
-      return '<li><span class="tag">' + tag + '<a class="tag-close">x</a></span></li>';
+      return '<li><span class="tag label label-warning">' + tag + '</span></li>';
     });
 
-    this.$('#tagList').append(tags.join(''));
+    tagList.append(tags.join(''));
+    return this;
   },
 
   tweetUrl: function() {
@@ -67,24 +72,4 @@ ESApp.Views.TweetItem = Support.CompositeView.extend({
     this.model.removeTag(tag);
   },
 
-  submitTag: function(e) {
-    console.debug("submitTag");
-    e.preventDefault();
-    if(e.type == "click") {
-      console.debug("savingTags");
-      var $button = this.$('#saveTag');
-      $button.button('loading');
-      console.debug(this.model);
-      this.model.save({}, {
-        success: function(model, response) {
-          $button.button('reset');
-        },
-        error: function(model, response) {
-          console.error("Error saving tags");
-          console.debug(response);
-          $button.button('reset');
-        }
-      });
-    }
-  },
 });
