@@ -5,18 +5,12 @@ var ESApp = {
   Views: {},
   Routers: {},
   init: function(response) {
-    console.debug(response);
-    this.search = new ESApp.Models.Search(response);
-    new ESApp.Routers.Tweets();
+    this.search_history = new ESApp.Collections.SearchHistory();
+    var search = new ESApp.Models.Search(response);
+    new ESApp.Routers.Tweets(search);
     if (!Backbone.history.start()) {
       Backbone.history.start({ pushState: true });
       Backbone.history.started = true;
     }
-
-    /* Probably don't want this. Maybe for SearchResults
-    setInterval(function() {
-      ESApp.search.fetch();
-    }, 60000);
-    */
   }
 };
