@@ -2,8 +2,8 @@ module TweetFacets
 
   def tag_facet
     Proc.new do
-      facet 'tags' do
-        terms 'tags'
+      facet 'tags.untouched' do
+        terms 'tags.untouched'
       end
     end
   end
