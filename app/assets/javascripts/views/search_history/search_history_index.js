@@ -1,4 +1,5 @@
 ESApp.Views.SearchHistory = Support.CompositeView.extend({
+  id: 'search-history',
   className: 'row',
 
   initialize: function() {

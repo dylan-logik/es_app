@@ -1,6 +1,6 @@
 ESApp.Routers.Tweets = Support.SwappingRouter.extend({
   initialize: function(search) {
-    this.el = $('body');
+    this.el = $('.container');
     this.search = search;
   },
 
@@ -10,7 +10,7 @@ ESApp.Routers.Tweets = Support.SwappingRouter.extend({
   },
 
   index: function() {
-    var view = new ESApp.Views.Main({ collection: ESApp.search_history });
+    //var view = new ESApp.Views.Main({ collection: ESApp.search_history });
     var view = new ESApp.Views.Search({ model: this.search });
     this.swap(view);
   },

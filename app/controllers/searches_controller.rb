@@ -1,11 +1,11 @@
 class SearchesController < ApplicationController
   respond_to :html, :json
 
-  def index
+  def history
     @searches = Search.all
     respond_with(@searches)    
   end
-
+  
   def search
     klass = params[:type] ? params[:type].classify.constantize : Tweet
     if klass.respond_to?(:search)

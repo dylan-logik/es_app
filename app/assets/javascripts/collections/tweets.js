@@ -3,13 +3,18 @@ ESApp.Collections.Tweets = Backbone.Collection.extend({
   model: ESApp.Models.Tweet,
   url: '/searches/search',
 
+  defaults: {
+    "page"    : 1,
+    "perPage" : 20,
+    "total"   : 0
+  },
+
   initialize: function(options) {
     this.page    = options.page;
     this.total   = options.total;
     this.perPage = options.perPage;
 
     _.bindAll(this, 'parse', 'pageInfo', 'nextPage', 'previousPage');
-    //this.on('reset', function() { alert('reset'); });
   },
 
   pageInfo: function() {

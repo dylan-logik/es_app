@@ -3,21 +3,35 @@ ESApp.Views.Search = Support.CompositeView.extend({
   className: 'search',
     
   initialize: function(options) {
-    _.bindAll(this, "render");
+    _.bindAll(this, 'render', 'renderTook', 'renderTotal');
+    this.model.on('change:took', this.renderTook);
+    this.model.on('change:total', this.renderTotal);
   },
 
   render: function() {
     console.debug("Search#render");
-    var form    = new ESApp.Views.SearchForm({ model: this.model });
+
+    this.$el.html(JST['search/search']());
+
     var results = new ESApp.Views.SearchResults({ collection: this.model.results, facets: this.model.facets });
     var facets  = new ESApp.Views.FacetsIndex({ collection: this.model.facets });
 
-    var searchHistory = new ESApp.Views.SearchHistory({ collection: ESApp.search_history });
+    this.renderTook()
+    this.renderTotal();
 
-    this.appendChild(form);
     this.appendChild(facets);
     this.appendChild(results);
-    this.appendChild(searchHistory);
+
     return this;
-  }
+  },
+
+  renderTook: function() {
+    this.$('#search-took').text(this.model.get('took'));
+    return this;
+  },
+
+  renderTotal: function() {
+    this.$('search-results-count').text(this.model.get('total'));
+    return this;
+  },
 });

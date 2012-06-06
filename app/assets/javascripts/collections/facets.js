@@ -36,5 +36,6 @@ ESApp.Collections.Facets = Backbone.Collection.extend({
     });
 
     return and;
-  }
+  },
+
 });

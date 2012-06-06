@@ -1,9 +1,10 @@
 EsApp::Application.routes.draw do
   root :to => 'searches#search'
   resources :tweets, :only => [:update, :show, :destroy, :create]
-  resources :searches do
+  resources :searches, :except => [:index] do
     collection do
       get 'search'
+      get 'history'
     end
   end
   # The priority is based upon order of creation:

@@ -23,6 +23,7 @@ gem 'jquery-rails'
 group :test do
   gem 'turn'
   gem 'rspec-rails'
+  gem 'jasmine-rails'
   gem 'fabrication'
   gem 'ffaker'
 end

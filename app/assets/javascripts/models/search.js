@@ -2,6 +2,7 @@ ESApp.Models.Search = Backbone.Model.extend({
 
   urlRoot: '/searches',
 
+  // Only really needed for bootstrapping the application
   initialize: function(options) {
     options || (options = {});
     var pageInfo = {
@@ -12,14 +13,18 @@ ESApp.Models.Search = Backbone.Model.extend({
 
     this.results  = new ESApp.Collections.Tweets(pageInfo);
     this.facets   = new ESApp.Collections.Facets(options.facets);
-    this.results.reset(options.results);
+
+    if (options.results) {
+      this.results.reset(options.results);
+    }
+
 
     this.set('query', (options.query || ""), { silent: true });
     this.set('took', (options.took || 0), { silent: true });
 
     this.on('change:query', this.execute, this);
     this.facets.on('doSearch', this.execute, this);
-    // TODO: Move to collection
+    // Maybe move to Tweets collection. 
     this.results.on('nextPage', this.nextPage, this);
   },
 
@@ -50,7 +55,7 @@ ESApp.Models.Search = Backbone.Model.extend({
       });
   },
 
-  // TODO: Move to collection
+  // Maybe move to collection. The only issue is it needs the request from the search
   nextPage: function(options) {
     this.results.fetch({ add: true, data: this.request() });
   }

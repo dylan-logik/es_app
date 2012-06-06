@@ -8,20 +8,6 @@ ESApp.Views.SearchForm = Support.CompositeView.extend({
     this.model.on('change:total', this.renderTotal);
   },
 
-  events: {
-    "click #search-execute": "search",
-  },
-
-  renderTook: function() {
-    this.$('#search-took').text(this.model.get('took'));
-    return this;
-  },
-
-  renderTotal: function() {
-    this.$('#search-results-count').text(this.model.get('total'));
-    return this;
-  },
-
   render: function() {
     this.$el.html(JST['search/form']());
 
