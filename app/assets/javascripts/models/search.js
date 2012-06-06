@@ -35,7 +35,7 @@ ESApp.Models.Search = Backbone.Model.extend({
     return request;
   },
 
-  execute: function() {
+  execute: function(success, failure) {
     console.debug('execute');
     this.results.page = 1;
     var request = this.request();
@@ -48,6 +48,7 @@ ESApp.Models.Search = Backbone.Model.extend({
     var self = this;
     $.ajax(params)
       .success(function(data) {
+        console.debug(data);
         self.set('took', (data.took || 0));
         self.set('total', (data.total || 0));
         self.facets.pivot(data.facets);

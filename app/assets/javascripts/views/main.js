@@ -10,6 +10,7 @@ ESApp.Views.Main = Support.CompositeView.extend({
   },
 
   render: function() {
+    console.debug('Main#render');
     this.$el.html(JST['layouts/main']());
     // Render the first default search to bootstrap the view but don't want the default search in the search history
     // Probably want to re-think this. It will keep popping models if re-rendering the view
@@ -27,7 +28,7 @@ ESApp.Views.Main = Support.CompositeView.extend({
 
     this.searchView = new ESApp.Views.Search({ model: search });
     this.appendChild(this.searchView);
-
+    console.debug(this.searchView);
     return this;
   },
 
@@ -42,9 +43,11 @@ ESApp.Views.Main = Support.CompositeView.extend({
     var query = $(e.target).parent().children('#search-query').val();
     // Can't pass the query through the initializer because the bootstrap mechanism
     var search = new ESApp.Models.Search();
+    console.debug('Main#newSearch');
     search.set("query", query); // this will execute the search
-    this.renderSearch(search);
+    console.debug(search);
     this.collection.add(search);
+    this.renderSearch(search);
     return false;
   }
 });

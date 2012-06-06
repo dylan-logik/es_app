@@ -50,7 +50,7 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    fabrication (2.0.0)
+    fabrication (2.0.1)
     ffaker (1.14.0)
     ffi (1.0.11)
     hashr (0.0.21)
@@ -167,7 +167,7 @@ GEM
       polyglot (>= 0.3.1)
     turn (0.9.5)
       ansi
-    twitter-bootstrap-rails (2.0.8)
+    twitter-bootstrap-rails (2.0.9)
       actionpack (>= 3.1)
       less-rails (~> 2.2.2)
       railties (>= 3.1)

@@ -4,10 +4,10 @@ var ESApp = {
   Collections: {},
   Views: {},
   Routers: {},
-  init: function(response) {
-    this.search_history = new ESApp.Collections.SearchHistory();
-    var search = new ESApp.Models.Search(response);
-    new ESApp.Routers.Tweets(search);
+  init: function(bootstrap) {
+    var search = new ESApp.Models.Search(bootstrap);
+    this.search_history = new ESApp.Collections.SearchHistory([search]);
+    new ESApp.Routers.Tweets();
     if (!Backbone.history.start()) {
       Backbone.history.start({ pushState: true });
       Backbone.history.started = true;
