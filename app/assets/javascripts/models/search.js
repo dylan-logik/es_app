@@ -7,11 +7,13 @@ ESApp.Models.Search = Backbone.Model.extend({
     var pageInfo = {
       page: (options.page || 1),
       total: (options.total || 0),
-      perPage: (options.perPage || 20),
+      perPage: (options.perPage || 10),
     };
 
-    this.results  = new ESApp.Collections.Tweets(pageInfo);
-    this.facets   = new ESApp.Collections.Facets(options.facets);
+    this.results        = new ESApp.Collections.Tweets(pageInfo);
+    this.facets         = new ESApp.Collections.Facets(options.facets);
+    this.search_history = new ESApp.Collections.SearchHistory();
+
     this.results.reset(options.results);
 
     this.set('query', (options.query || ""), { silent: true });
@@ -40,6 +42,7 @@ ESApp.Models.Search = Backbone.Model.extend({
       type      : "GET",
       data      : request,
     };
+
     var self = this;
     $.ajax(params)
       .success(function(data) {
@@ -53,5 +56,12 @@ ESApp.Models.Search = Backbone.Model.extend({
   // TODO: Move to collection
   nextPage: function(options) {
     this.results.fetch({ add: true, data: this.request() });
+  },
+
+  saveSearch: function() {
+    console.debug("Search#saveSearch");
+    var savedSearch = new ESApp.Models.SavedSearch({ query: this.get('query') });
+    this.search_history.add(savedSearch);
   }
+
 });

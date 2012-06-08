@@ -1,6 +1,6 @@
 ESApp.Views.SearchResults = Support.CompositeView.extend({
   id: 'results',
-  className: 'results row',
+  className: 'results span9',
 
   initialize: function(options) {
     this.facets = options.facets;

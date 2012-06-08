@@ -50,6 +50,7 @@ ESApp.Collections.Tweets = Backbone.Collection.extend({
   },
 
   parse: function(resp) {
+    this.total = resp.total
     return resp.results;
   },
 

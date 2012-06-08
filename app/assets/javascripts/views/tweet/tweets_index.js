@@ -28,6 +28,10 @@ ESApp.Views.TweetsIndex = Support.CompositeView.extend({
     this.renderChild(tweetItem);
     var tweetsList = this.$('#tweets-list');
     tweetsList.append(tweetItem.el);
+    console.debug(this.collection.total);
+    if(!this.collection.hasMore()) {
+      this.$('#more-results').remove();
+    }
     return this;
   },
 
@@ -36,6 +40,7 @@ ESApp.Views.TweetsIndex = Support.CompositeView.extend({
   },
 
   renderContents: function() {
+    console.debug("TweetsIndex#renderContents");
     var self = this;
     var tweetsList = this.$('#tweets-list');
     this.collection.each(function(tweet) {
@@ -43,5 +48,10 @@ ESApp.Views.TweetsIndex = Support.CompositeView.extend({
       self.renderChild(tweetItem);
       tweetsList.append(tweetItem.el);
     });
+
+    if(!this.collection.hasMore()) {
+      console.debug("no more");
+      this.$('#more-results').remove();
+    }
   }
 });

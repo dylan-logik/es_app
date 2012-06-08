@@ -10,6 +10,7 @@ ESApp.Views.SearchForm = Support.CompositeView.extend({
 
   events: {
     "click #search-execute": "search",
+    "click #save-search": "saveSearch"
   },
 
   renderTook: function() {
@@ -32,8 +33,21 @@ ESApp.Views.SearchForm = Support.CompositeView.extend({
 
   search: function(e) {
     e.preventDefault();
-    var query = $(e.target).parent().children('#search-query').val();
+    var query = this.selectQuery(e);
     this.model.set('query', query);
     return false;
+  },
+  
+  saveSearch: function(e) {
+    console.debug("SearchForm#saveSearch");
+    e.preventDefault();
+    var query = this.selectQuery(e);
+    if(!_.isEmpty(query)) {
+      this.model.saveSearch();
+    }
+  },
+
+  selectQuery: function(e) {
+    return $(e.target).parent().children('#search-query').val();
   }
 });
