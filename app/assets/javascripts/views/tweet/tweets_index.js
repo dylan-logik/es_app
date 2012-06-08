@@ -26,7 +26,8 @@ ESApp.Views.TweetsIndex = Support.CompositeView.extend({
   add: function(model) {
     var tweetItem = new ESApp.Views.TweetItem({ model: model });
     this.renderChild(tweetItem);
-    this.$('#tweets-list').append(tweetItem.el);
+    var tweetsList = this.$('#tweets-list');
+    tweetsList.append(tweetItem.el);
     return this;
   },
 
@@ -36,10 +37,11 @@ ESApp.Views.TweetsIndex = Support.CompositeView.extend({
 
   renderContents: function() {
     var self = this;
+    var tweetsList = this.$('#tweets-list');
     this.collection.each(function(tweet) {
       var tweetItem = new ESApp.Views.TweetItem({ model: tweet });
       self.renderChild(tweetItem);
-      self.$('#tweets-list').append(tweetItem.el);
+      tweetsList.append(tweetItem.el);
     });
   }
 });

@@ -12,6 +12,10 @@ ESApp.Collections.Tweets = Backbone.Collection.extend({
     //this.on('reset', function() { alert('reset'); });
   },
 
+  hasMore: function() {
+    return (this.total > this.perPage);
+  },
+
   pageInfo: function() {
     var page = this.page;
     var total = this.total;

@@ -36,8 +36,14 @@ ESApp.Views.TweetItem = Support.CompositeView.extend({
     this.$('.accordion-body > p').text(this.model.cid);
     var self = this;
     this.$('.collapse').attr('id', 'collapse-' + this.model.cid)
+      .on('hide', function() {
+        self.$('.accordion-toggle').button('toggle');
+      })
       .on('hidden', function() {
         self.$('.accordion-toggle > i').toggleClass('icon-plus').toggleClass('icon-minus');
+      })
+      .on('show', function() {
+        self.$('.accordion-toggle').button('toggle');
       })
       .on('shown', function() {
         self.$('.accordion-toggle > i').toggleClass('icon-minus').toggleClass('icon-plus');

@@ -10,7 +10,7 @@ ESApp.Views.SearchResults = Support.CompositeView.extend({
   render: function() {
     console.debug('SearchResults#render');
     this._leaveChildren();
-    this.$el.html(JST['search/results']());
+    this.$el.html(JST['search/results']({ hasMore: this.collection.hasMore() }));
 
     var resultsView = new ESApp.Views.TweetsIndex({ collection: this.collection });
     //var chartsView  = new ESApp.Views.SearchCharts({ collection: this.facets });
@@ -23,5 +23,5 @@ ESApp.Views.SearchResults = Support.CompositeView.extend({
     //$tabs.append(chartsView.el);
     this.$('#tweets-tab').toggleClass('active');
     return this;
-  }
+  },
 });
