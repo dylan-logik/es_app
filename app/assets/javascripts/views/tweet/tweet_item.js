@@ -33,7 +33,7 @@ ESApp.Views.TweetItem = Support.CompositeView.extend({
     this.$('#content').text(this.model.get('text'));
     this.$('.time-stamp').text($.format.date(this.model.get('created_at'), 'ddd MMMM dd, yyyy hh:mma')); 
     this.$('.screen_name').text('@' + this.model.get('user').screen_name);
-    this.$('.accordion-body > p').text(this.model.cid);
+    this.$('.accordion-body > p').text("Retweet Count: " + this.model.get('retweet_count') + " Score: " + this.model.get('_score'));
     var self = this;
     this.$('.collapse').attr('id', 'collapse-' + this.model.cid)
       .on('hide', function() {

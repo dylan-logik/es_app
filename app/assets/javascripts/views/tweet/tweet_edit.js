@@ -35,9 +35,8 @@ ESApp.Views.TweetEdit = Support.CompositeView.extend({
 
   renderTags: function() {
     this.$('#tagList').empty();
-    // NOTE: Move to JST template
     var tags = _.map(this.tags, function(tag) {
-      return '<li><span class="tag label label-warning">' + tag + '<a class="tag-close">x</a></span></li>';
+      return JST['tweets/tag']({ tag: tag });
     });
     
     this.$('#tagList').append(tags.join(''));
@@ -49,8 +48,7 @@ ESApp.Views.TweetEdit = Support.CompositeView.extend({
       var tag = $target.val();
       this.tags.push(tag);
       $target.val('');
-      // NOTE: Move to JST template
-      this.$('#tagList').append('<li><span class="tag label label-warning">' + tag + '<a class="tag-close">x</a></span></li>');
+      this.$('#tagList').append(JST['tweets/tag']({ tag: tag }));
       if(this.tags.length > 0) this.$('#save-tags').removeAttr('disabled');
     }
   },

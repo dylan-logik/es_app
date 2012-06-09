@@ -51,6 +51,14 @@ module TweetFacets
     end
   end
 
+  def place_facet
+    Proc.new do
+      facet 'place.country.untouched' do
+        terms :'place.country.untouched'
+      end
+    end
+  end
+  
   def date_range_facet
     Proc.new do
       facet 'created_at' do

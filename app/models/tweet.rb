@@ -25,7 +25,7 @@ class Tweet
     options[:per_page] ||= self.per_page
     options[:query] = "*:*" if options[:query].nil? || options[:query].empty?
 
-    sort  = Array( options[:order] || options[:sort] )
+    sort = Array( options[:order] || options[:sort] )
 
     tire.search do |search|
       search.size( options[:per_page].to_i ) if options[:per_page]
@@ -33,11 +33,11 @@ class Tweet
       search.sort do
         sort.each do |t|
           field_name, direction = t.split(' ')
-          by field_name, direction
+          by field_name, (direction || 'desc')
         end
       end unless sort.empty?
 
-      search.query(&__build_query(options))
+      search.query(&build_query(options))
       facets { |f| search.instance_eval(&f) }
 
       search.highlight :text
@@ -52,7 +52,7 @@ class Tweet
 
   protected
 
-  def self.__build_query(options)
+  def self.build_query(options)
     Proc.new do
       if options[:filter]
         filters = Yajl::Parser.parse(options[:filter])
@@ -64,7 +64,7 @@ class Tweet
           filtered.query { string options[:query] }
         end
       else
-        string options['query']
+        string options['query'], { :default_field => :text }
       end
     end
   end

@@ -27,6 +27,17 @@ curl -XPUT "http://localhost:9200/tweets/tweet/_mapping" -d '
             }
           }
         }
+      },
+      "place": {
+        "properties": {
+          "country": {
+            "type": "multi_field",
+            "fields": {
+              "country": { "type": "string" },
+              "untouched": { "type": "string", "index": "not_analyzed" }
+            }
+          }
+        }
       }
     }
   }

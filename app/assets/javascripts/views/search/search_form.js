@@ -3,7 +3,7 @@ ESApp.Views.SearchForm = Support.CompositeView.extend({
   className: "search",
 
   initialize: function(options) {
-    _.bindAll(this, "render", "renderTook", "renderTotal", "savedSearchAlert");
+    _.bindAll(this, "render", "renderTook", "renderTotal", "renderSortMenu", "savedSearchAlert", "sort");
     this.model.on('change:took', this.renderTook);
     this.model.on('change:total', this.renderTotal);
     this.model.search_history.on('add', this.savedSearchAlert);
@@ -11,14 +11,21 @@ ESApp.Views.SearchForm = Support.CompositeView.extend({
 
   events: {
     "click #search-execute": "search",
-    "click #save-search": "saveSearch"
+    "click #save-search": "saveSearch",
+    "click .sort-search-item": "sort"
+  },
+
+  sort: function(e) {
+    var $target = $(e.target);
+    console.debug($target.text());
+    this.model.set("sort", this.model.sortMap[$target.text()]);
+    this.$('#sort-search-value').text($target.text());
   },
 
   savedSearchAlert: function() {
     var al = $(JST['alerts/saved_search_success']());
-    console.debug(al);
     this.$('#alerts').prepend(al);
-    window.setTimeout(function() { al.alert('close'); }, 5000); 
+    window.setTimeout(function() { al.alert('close'); }, 2000); 
     return this;
   },
 
@@ -32,11 +39,21 @@ ESApp.Views.SearchForm = Support.CompositeView.extend({
     return this;
   },
 
+  renderSortMenu: function() {
+    var sortValues = _.keys(this.model.sortMap).map(function(key) {
+      return "<li><a class='sort-search-item'>" + key + "</a></li>";
+    });
+
+    this.$('#search-sort-menu').append(sortValues.join(''));
+    return this;
+  },
+
   render: function() {
     this.$el.html(JST['search/form']());
 
     this.renderTook();
     this.renderTotal();
+    this.renderSortMenu();
     return this;
   },
 

@@ -2,7 +2,18 @@ ESApp.Models.Search = Backbone.Model.extend({
 
   urlRoot: '/searches',
 
+  defaults: {
+    "sort": "_score"
+  },
+
+  sortMap: {
+    "Score"         : "_score",
+    "Retweet Count" : "retweet_count",
+    "Date"          : "created_at"
+  },
+
   initialize: function(options) {
+    // Set Defaults
     options || (options = {});
     var pageInfo = {
       page: (options.page || 1),
@@ -10,25 +21,23 @@ ESApp.Models.Search = Backbone.Model.extend({
       perPage: (options.perPage || 10),
     };
 
+    // Bootstrap Model
     this.results        = new ESApp.Collections.Tweets(pageInfo);
     this.facets         = new ESApp.Collections.Facets(options.facets);
     this.search_history = new ESApp.Collections.SearchHistory();
-
-    this.search_history.fetch();
-
     this.results.reset(options.results);
-
     this.set('query', (options.query || ""), { silent: true });
     this.set('took', (options.took || 0), { silent: true });
 
+    // Event Binding
     this.on('change:query', this.execute, this);
+    this.on('change:sort', this.execute, this);
     this.facets.on('doSearch', this.execute, this);
-    // TODO: Move to collection
     this.results.on('nextPage', this.nextPage, this);
   },
 
   request: function() {
-    var request = { query: this.get('query'), page: this.results.page }
+    var request = { query: this.get('query'), sort: this.get('sort'), page: this.results.page }
     var filters = this.facets.filters();
     if (filters.length > 0) request['filter'] = JSON.stringify(filters)
     return request;
@@ -48,6 +57,7 @@ ESApp.Models.Search = Backbone.Model.extend({
     var self = this;
     $.ajax(params)
       .success(function(data) {
+        console.debug(data);
         self.set('took', (data.took || 0));
         self.set('total', (data.total || 0));
         self.facets.pivot(data.facets);
@@ -55,23 +65,14 @@ ESApp.Models.Search = Backbone.Model.extend({
       });
   },
 
-  // TODO: Move to collection
   nextPage: function(options) {
     this.results.fetch({ add: true, data: this.request() });
   },
 
   saveSearch: function() {
     console.debug("Search#saveSearch");
-    var savedSearch = new ESApp.Models.SavedSearch({ query: this.get('query'), total: this.get('total'), facets: this.facets.selectedFacets() });
-
-    var self = this;
-    savedSearch.save({}, {
-      success: function(response) {
-        console.debug("success");
-      }
-    });
-
-    this.search_history.add(savedSearch);
-  }
+    this.search_history.create({ query: this.get('query'), total: this.get('total'), facets: this.facets.selectedFacets(), sort: this.get('sort') }, { wait: true });
+    return true;
+  },
 
 });
