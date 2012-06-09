@@ -3,14 +3,23 @@ ESApp.Views.SearchForm = Support.CompositeView.extend({
   className: "search",
 
   initialize: function(options) {
-    _.bindAll(this, "render", "renderTook", "renderTotal");
+    _.bindAll(this, "render", "renderTook", "renderTotal", "savedSearchAlert");
     this.model.on('change:took', this.renderTook);
     this.model.on('change:total', this.renderTotal);
+    this.model.search_history.on('add', this.savedSearchAlert);
   },
 
   events: {
     "click #search-execute": "search",
     "click #save-search": "saveSearch"
+  },
+
+  savedSearchAlert: function() {
+    var al = $(JST['alerts/saved_search_success']());
+    console.debug(al);
+    this.$('#alerts').prepend(al);
+    window.setTimeout(function() { al.alert('close'); }, 5000); 
+    return this;
   },
 
   renderTook: function() {

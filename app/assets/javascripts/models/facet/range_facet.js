@@ -11,7 +11,7 @@ ESApp.Models.RangeFacet = Backbone.Model.extend(
     });
     return typeof(o) != 'undefined';
   },
-
+  
   itemFilter: function(range) {
     var field = this.get('name');
     var t = {}; t[field] = { "from": range.from, "to": range.to };

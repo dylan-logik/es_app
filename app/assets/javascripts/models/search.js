@@ -14,6 +14,8 @@ ESApp.Models.Search = Backbone.Model.extend({
     this.facets         = new ESApp.Collections.Facets(options.facets);
     this.search_history = new ESApp.Collections.SearchHistory();
 
+    this.search_history.fetch();
+
     this.results.reset(options.results);
 
     this.set('query', (options.query || ""), { silent: true });
@@ -60,7 +62,15 @@ ESApp.Models.Search = Backbone.Model.extend({
 
   saveSearch: function() {
     console.debug("Search#saveSearch");
-    var savedSearch = new ESApp.Models.SavedSearch({ query: this.get('query') });
+    var savedSearch = new ESApp.Models.SavedSearch({ query: this.get('query'), total: this.get('total'), facets: this.facets.selectedFacets() });
+
+    var self = this;
+    savedSearch.save({}, {
+      success: function(response) {
+        console.debug("success");
+      }
+    });
+
     this.search_history.add(savedSearch);
   }
 

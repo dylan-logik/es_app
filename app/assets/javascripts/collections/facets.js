@@ -36,5 +36,17 @@ ESApp.Collections.Facets = Backbone.Collection.extend({
     });
 
     return and;
+  },
+
+  selectedFacets: function() {
+    var items = [];
+    this.each(function(facet) {
+      if(facet.selectedItems) {
+        if(facet.selectedItems().length > 0) {
+          items.push(facet);
+        }
+      }
+    });
+    return items;
   }
 });

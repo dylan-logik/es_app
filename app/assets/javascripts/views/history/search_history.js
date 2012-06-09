@@ -4,9 +4,11 @@ ESApp.Views.SearchHistory = Support.CompositeView.extend({
   initialize: function() {
     _.bindAll(this, "render", "renderContents", "add");
     this.collection.on("add", this.add);
+    this.collection.fetch();
   },
 
   render: function() {
+    console.debug("SearchHistory#render");
     this.$el.html(JST['history/search_history']());
     this.renderContents();
     return this; 
@@ -14,6 +16,9 @@ ESApp.Views.SearchHistory = Support.CompositeView.extend({
 
   renderContents: function() {
     var add = this.add;
+    console.debug('SearchHistory#renderContents');
+    console.debug(this.collection);
+    console.debug(this.collection.models);
     this.collection.each(function(savedSearch) {
       add(savedSearch);
     }); 

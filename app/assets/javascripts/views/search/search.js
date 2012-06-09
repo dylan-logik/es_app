@@ -13,7 +13,6 @@ ESApp.Views.Search = Support.CompositeView.extend({
     var searchHistory = new ESApp.Views.SearchHistory({ collection: this.model.search_history });
     var results       = new ESApp.Views.SearchResults({ collection: this.model.results, facets: this.model.facets });
 
-
     this.appendChild(form);
     this.appendChild(facets);
     this.$el.append("<div id='bottom' class='row'></div>");

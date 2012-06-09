@@ -12,7 +12,8 @@ ESApp.Views.SavedSearch = Support.CompositeView.extend({
   },
 
   renderContents: function() {
-    this.$('.saved-search-query').text(this.model.get('query'));
+    this.$('#saved-search-query').text(this.model.get('query'));
+    this.$('#saved-search-total').text(this.model.get('total'));
     return this;
   }
 });
