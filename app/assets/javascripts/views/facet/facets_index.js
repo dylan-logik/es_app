@@ -19,11 +19,10 @@ ESApp.Views.FacetsIndex = Support.CompositeView.extend({
         self.appendChild(facetItem);
       }
     });
-    //this.renderDateFacet(); 
     return this;
   },
 
-  renderDateFacet: function() {
+  renderDateHistogram: function() {
     var dateFacet = this.collection.find(function(facet) { return facet.get('_type') == 'date_histogram'; });
     var dateFacetView = new ESApp.Views.DateFacetView({ model: dateFacet });
     this.renderChild(dateFacetView);

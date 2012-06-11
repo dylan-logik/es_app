@@ -8,7 +8,7 @@ ESApp.Collections.Facets = Backbone.Collection.extend({
         return new ESApp.Models.RangeFacet(attr, options);
       case 'statistical':
         return new ESApp.Models.StatisticalFacet(attr, options);
-      case 'date_histogram':
+      case 'date':
         return new ESApp.Models.DateFacet(attr, options);
       default:
         return new ESApp.Models.TermsFacet(attr, options);
@@ -30,8 +30,14 @@ ESApp.Collections.Facets = Backbone.Collection.extend({
     var and = [];
     this.each(function(facet) {
       var f = facet.filters();
-      if (f[facet.boolType].length > 0) {
-        and.push(f);
+      if (facet.boolType) {
+        if (f[facet.boolType].length > 0) {
+          and.push(f);
+        }
+      } else {
+        if (facet.get('selected')) {
+          and.push(f);
+        }
       }
     });
 

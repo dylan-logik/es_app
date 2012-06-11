@@ -30,6 +30,7 @@ class Tweet
     tire.search do |search|
       search.size( options[:per_page].to_i ) if options[:per_page]
       search.from( options[:page].to_i <= 1 ? 0 : (options[:per_page].to_i * (options[:page].to_i-1)) ) if options[:page] && options[:per_page]
+
       search.sort do
         sort.each do |t|
           field_name, direction = t.split(' ')
@@ -43,6 +44,7 @@ class Tweet
       search.highlight :text
 
       search.fields Array( options[:fields] ) if options[:fields]
+      #raise search.to_json.inspect if options[:filter]
     end
   end
 
@@ -64,7 +66,7 @@ class Tweet
           filtered.query { string options[:query] }
         end
       else
-        string options['query'], { :default_field => :text }
+        string options[:query], { :default_field => :text }
       end
     end
   end

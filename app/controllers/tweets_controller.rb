@@ -15,4 +15,9 @@ class TweetsController < ApplicationController
   def destroy
     Tweet.find(params[:id]).destroy
   end
+
+  def mlt
+    @tweets = Tweet.more_like_this(params[:id])
+    respond_with(@tweets)
+  end
 end

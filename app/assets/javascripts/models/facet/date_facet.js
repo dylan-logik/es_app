@@ -1,36 +1,31 @@
 ESApp.Models.DateFacet = Backbone.Model.extend({
+  type: 'date',
+ 
+  initialize: function(options) {
+    console.debug("DateFacet#initialize");
+    options['selected'] || (options['selected'] = false)
+    //this.on('change:min', this.doSearch, this);
+    //this.on('change:max', this.doSearch, this);
+    this.on('change:selected', this.doSearch, this);
+    this.set(options, { silent: true });
+  },
 
-  idAttribute: 'name',
-  type: 'date_histogram',
-  boolType: 'or',
-
-  initialize: function(attr) {
-    this.set({ global_min: attr.entries[0].time, min: attr.entries[0].time, global_max: attr.entries[attr.entries.length - 1].time, max: attr.entries[attr.entries.length - 1].time });
+  pivot: function(attrs, options) {
+    if(!this.get('selected')) {
+      console.debug("DateFacet#pivot");
+      attrs['selected'] = false;
+      this.set(attrs, { silent: true });
+    }
   },
 
   locked: function() {
-    return true; 
-  },
-
-  pivot: function(attr, options) {
-    this.set(attr);
-  },
-
-  onSelect: function(extremes) {
-    if (extremes.min != this.get('min') || extremes.max != this.get('max')) {
-      this.set({ min: extremes.min, max: extremes.max }, { silent: true });
-      this.trigger('doSearch');
-    }
+    return false;
   },
 
   filters: function() {
-    if (this.get('min') != this.get('global_min') || this.get('max') != this.get('global_max') ) {
-      var field = this.get('name');
-      var t = {}; t[field] = { "from": this.get('min').toFixed(0), "to": this.get('max').toFixed(0) };
-      return { "or": [{ "numeric_range": t }] };
-    } else {
-      return { "or": [] };
-    }
+    var toFrom = { "from": this.get('min').toFixed(0), "to": this.get('max').toFixed(0) };
+    var filter = {}; filter[this.get('name')] = toFrom;
+    return { "numeric_range":  filter }
   },
 
   prettyName: function() {
@@ -41,9 +36,8 @@ ESApp.Models.DateFacet = Backbone.Model.extend({
     .join(' ');
   },
 
-  chartData: function() {
-    return _.map(this.get('entries'), function(entry) {
-      return [entry.time, entry.count];
-    });
+  doSearch: function() {
+    console.debug('DateFacet#doSearch');
+    this.trigger('doSearch');
   }
 });

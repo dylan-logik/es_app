@@ -1,6 +1,12 @@
 EsApp::Application.routes.draw do
   root :to => 'searches#search'
-  resources :tweets, :only => [:update, :show, :destroy, :create]
+
+  resources :tweets, :only => [:update, :show, :destroy, :create] do
+    collection do
+      get ':id/mlt', :action => :mlt
+    end
+  end
+
   resources :searches do
     collection do
       get 'search'

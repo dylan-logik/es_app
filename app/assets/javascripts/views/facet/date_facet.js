@@ -1,56 +1,52 @@
-ESApp.Views.DateFacetView = Support.CompositeView.extend({
-  
-  className: 'facet span12',
+ESApp.Views.DateFacet = Support.CompositeView.extend({
+
+  className: 'facet span3',
 
   initialize: function() {
-    _.bindAll(this, 'render', 'onRedraw');
-    this.model.bind('change', this.render);
+    _.bindAll(this, "render", "renderContents", "clear");
   },
 
-  template: function(facet) {
-    return "<div class='facet' id='" + this.model.get('name').replace(/\./g, '-') + "'></div>";
+  events: {
+    'click #clear-date-facet': 'clear'
   },
 
   render: function() {
-    this.renderChart();
-    this.$el.prepend("<div class='facet-name'><strong>" + this.model.prettyName() + "</stron></div>");
+    console.debug("DateFacet#render");
+    this.$el.html(JST['facets/date']());
+    this.renderContents();
+
+    var model = this.model;
+    this.$('#start-date').datepicker()
+      .on('changeDate', function(ev) {
+        model.set({min: ev.date.valueOf(), selected: true });
+      });
+
+    this.$('#end-date').datepicker()
+      .on('changeDate', function(ev) {
+        model.set({ max: ev.date.valueOf(), selected: true });
+      });
+
     return this;
   },
 
-  renderChart: function() {
-    var self = this;
-    var facet = this.model;
-    return new Highcharts.StockChart({
-      chart: {
-        renderTo: self.$el[0],
-        margin: 0,
-        events: {
-          redraw: function() {
-            self.onRedraw(this);
-          }
-        }
-      },
-      rangeSelector: {
-        enabled: false
-      },
-      credits: {
-        enabled: false
-      },
-      yAxis: {
-        min: 0
-      },
-      series: [{
-        name: facet.prettyName(),
-        data: self.model.chartData(),
-        tooltip: {
-          valueDecimals: 0
-        }
-      }]
-    });
+  renderContents: function() {
+    this.$('.facet-name > strong').text(this.model.prettyName());
+
+    var formattedStart = $.format.date(this.model.get('min'), 'MM-dd-yyyy')
+    var formattedEnd = $.format.date(this.model.get('max'), 'MM-dd-yyyy')
+
+    this.$('#start-date').attr('data-date', formattedStart); 
+    this.$('#end-date').attr('data-date', formattedEnd);
+    this.$('#start-date > input').attr('value', formattedStart);
+    this.$('#end-date > input').attr('value', formattedEnd);
+
+    return this;
   },
 
-  onRedraw: function(chart) {
-    var extremes = chart.xAxis[0].getExtremes();
-    this.model.onSelect(extremes);
+  clear: function(e) {
+    console.debug('clear');
+    e.preventDefault();
+    this.model.set("selected", false);
+    return false;
   }
 });

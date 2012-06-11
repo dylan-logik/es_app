@@ -4,15 +4,15 @@ curl -XPUT "http://localhost:9200/_river/twitter_river/_meta" -d '
   {
     "type": "twitter",
     "twitter": {
-      "user": "",
-      "password": "",
+      "user": "elmobleek",
+      "password": "Tw1tt3r!",
       "filter": {
-        "tracks": "ruby,rails,elasticsearch"
+        "track": "ruby rails elasticsearch dc dmv javascript node dcrug java scala"
       }
     },
     "index": {
       "index": "tweets",
-      "type": "status",
+      "type": "tweet",
       "bulk_size": 100
     }
   }

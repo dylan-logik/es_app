@@ -8,6 +8,7 @@
 //
 //= require twitter/bootstrap
 //= require jquery.dateFormat-1.0
+//= require bootstrap-datepicker
 //= require highcharts
 //= require highstock
 //= require es_app
